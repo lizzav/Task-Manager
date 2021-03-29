@@ -2,12 +2,13 @@ import React, { useState, useCallback } from "react";
 import { ReactComponent as Google } from "../../svg/Google.svg";
 import { ReactComponent as Vk } from "../../svg/Vk.svg";
 import { ReactComponent as Yandex } from "../../svg/yandex.svg";
-import "./LoginPage.scss";
+import "./RegistrationPage.scss";
 import Button from "../../component/Button";
 
 function LoginPage() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
 
   const handleLoginChange = useCallback(
     event => setLogin(event.target.value),
@@ -17,7 +18,10 @@ function LoginPage() {
     event => setPassword(event.target.value),
     []
   );
-
+  const handleNameChange = useCallback(
+    event => setName(event.target.value),
+    []
+  );
   const handleSubmit = useCallback(
     async event => {
       event.preventDefault();
@@ -30,7 +34,7 @@ function LoginPage() {
     <div className="login-page">
       <div className="login-page__title">ToDo</div>
       <div className="login-page__content">
-        <div className="login-page__content__title">Вход в ToDO</div>
+        <div className="login-page__content__title">Регистрация в ToDO</div>
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="login-form__form">
             <input
@@ -42,6 +46,13 @@ function LoginPage() {
             />
             <input
               className="login-form__form__input"
+              placeholder={"Введите имя"}
+              name="name"
+              value={name}
+              onChange={handleNameChange}
+            />
+            <input
+              className="login-form__form__input"
               name="password"
               placeholder={"Введите пароль"}
               type="password"
@@ -49,11 +60,11 @@ function LoginPage() {
               onChange={handlePasswordChange}
             />
 
-            <Button text="Войти" type="login" color="blue" />
-            {/*<button>войти</button>*/}
+            <Button text="Зарегистироваться" type="login" color="blue" />
+
           </div>
           <div className="login-form__link">
-            <div className="login-form__link__txt forgot">Забыли пароль?</div>
+            <div className="login-form__link__txt forgot"></div>
 
             <div className="login-form__link__reg">
               Войти через Google&nbsp;
@@ -71,7 +82,7 @@ function LoginPage() {
             </div>
 
             <div className="login-form__link__txt reg">
-              Нет аккаунта? Регистрация
+              Уже есть аккаунт? Войдите
             </div>
           </div>
         </form>

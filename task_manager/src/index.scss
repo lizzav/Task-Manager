@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;500;700&display=swap');
+
+body {
+  min-width: 600px;
+  margin: 0;
+  padding: 0;
+  font-family: 'Jost', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(180deg, #E1E4FF 0%, #E1E4FF 0.01%, rgba(225, 228, 255, 0) 100%) no-repeat;
+  }
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  monospace;
+}

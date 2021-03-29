@@ -1,0 +1,26 @@
+@import 'src/color';
+.form-button {
+  border-radius: 15px;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  color: #ffffff;
+  box-sizing: border-box;
+  font-style: normal;
+  width: 100%;
+}
+.blue {
+  background: $button-blue;
+}
+.login{
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 43px;
+  size: 30px;
+  letter-spacing: 0.105em;
+  min-height: 60px;
+
+}
