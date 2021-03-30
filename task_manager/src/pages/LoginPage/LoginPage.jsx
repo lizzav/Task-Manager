@@ -37,6 +37,7 @@ function LoginPage() {
               className="login-form__form__input"
               placeholder={"Введите адрес электронной почты"}
               name="login"
+              type="email"
               value={login}
               onChange={handleLoginChange}
             />
