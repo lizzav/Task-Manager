@@ -5,8 +5,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
+  position: fixed;
+  width: 100%;
   color: #000000;
+  min-width: 530px;
   &__title {
     margin-left: 5px;
     font-style: normal;
@@ -101,62 +103,13 @@ align-items: center;
       height: 30px;
       background: $main;
       border-radius: 50%;
-    }
-  }
-}
-.hello{
-  display: flex;
-  //justify-content: space-around;
-  //align-items: center;
-  position: absolute;
-  border-radius: 15px;
-  right: 100px;
-  width: 280px;
-  height: 334px;
-  background-color: #FFFFFF;
-  top: 64px;
-  flex-direction: column;
-  font-size: 25px;
-  line-height: 100%;
-  font-weight: 400;
-  padding: 0 15px;
-  box-sizing: border-box;
-  &__closed{
-    position: absolute;
-    top: 5px;
-  right: 19px;
-    cursor: pointer;
-  }
- &__title{
-   height: 50px;
-   align-items: center;
-   display: flex;
-   justify-content: center;
-   border-bottom:  solid 1px  rgba(196, 196, 196, 0.4);
-
- }
-  &__menu{
-    height: 160px;
-    justify-content: space-around;
-    display: flex;
-    flex-direction: column;
-    border-bottom:  solid 1px  rgba(196, 196, 196, 0.4);
-    cursor: pointer;
-
-  }
-  &__delete{
-    height: 120px;
-    justify-content: space-around;
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-  }
-  &__item{
-    align-items: center;
-    display: flex;
-    height: 40px;
-    &:hover{
-      background-color: $tasks;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
     }
   }
 }

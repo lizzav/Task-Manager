@@ -1,0 +1,101 @@
+@import "src/color";
+.lists {
+  padding-top: 50px;
+  display: flex;
+  //flex-direction: row;
+  &__list {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    min-width: 430px;
+    max-height: 90vh;
+    min-height: 65px;
+    border: 1px solid #eeeeee;
+    margin: 0 15px;
+    align-self: flex-start;
+    &-title {
+      font-weight: 500;
+      font-size: 25px;
+      line-height: 100%;
+      display: flex;
+      align-items: center;
+      color: #000000;
+      min-height: 65px;
+      margin-left: 21px;
+    }
+    &-tasks {
+      overflow: auto;
+   //word-wrap: normal;
+      //white-space: pre;
+      &::-webkit-scrollbar {
+        width: 7px;
+        background-color: lightgray;
+        border-radius: 15px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: gray;
+        border-radius: 15px;
+      }
+      &__task {
+        display: flex;
+        width: 386px;
+        background-color: $tasks;
+        margin: auto;
+        min-height: 90px;
+        max-height: 322px;
+        margin-bottom: 16px;
+        border-radius: 15px;
+        flex-direction: column;
+        &__title{
+          font-weight: normal;
+          font-size: 25px;
+          line-height: 100%;
+         color: #000000;
+          background: #8D98FF;
+          border-radius: 15px 15px 0px 0px;
+          height: 40px;
+          width: 100%;
+          padding-left: 11px;
+          display: flex;
+          align-items: center;
+          box-sizing: border-box;
+        }
+        &__metka{
+          height: 40px;
+          border-bottom: 1px solid rgba(196, 196, 196, 0.3);
+        }
+        &__fail{
+          height: 170px;
+
+          border-bottom: 1px solid rgba(196, 196, 196, 0.3);
+        }
+        &__bottom{
+          min-height: 50px;
+          display: flex;
+          align-items: center;
+justify-content: space-between;
+          margin: 0 10px;
+        }
+        &__author{
+
+        }
+          &__file{
+            float: left;
+            font-size: 25px;
+            line-height: 30px;
+            & svg{
+              margin-bottom: -3px;
+            }
+          }
+
+
+      }
+    }
+  }
+}
+//::-webkit-scrollbar — это фон самого скроллбара.
+//::-webkit-scrollbar-button — кнопки направления на полосе прокрутки.
+//::-webkit-scrollbar-track — пустое пространство под индикатором прокрутки.
+//::-webkit-scrollbar-thumb — индикатор прокрутки, перетаскиваемый элемент.
