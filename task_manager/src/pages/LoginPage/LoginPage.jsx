@@ -21,7 +21,6 @@ function LoginPage() {
   const handleSubmit = useCallback(
     async event => {
       event.preventDefault();
-      console.log("knopka");
     },
     [login, password]
   );
@@ -51,7 +50,6 @@ function LoginPage() {
             />
 
             <Button text="Войти" type="login" color="blue" />
-            {/*<button>войти</button>*/}
           </div>
           <div className="login-form__link">
             <div className="login-form__link__txt forgot">Забыли пароль?</div>

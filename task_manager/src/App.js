@@ -1,17 +1,13 @@
-import './App.css';
+import "./App.css";
 import React from "react";
-import Header from "./component/Header"
-import LoginPage from "./pages/LoginPage";
-import MainPage from "./pages/MainPage";
-
-
+import Header from "./component/Header";
+import TasksInProjectPage from "./pages/TasksInProjectPage";
 
 function App() {
   return (
     <div className="App">
-      <Header/>
-      <MainPage />
-
+      <Header />
+      <TasksInProjectPage />
     </div>
   );
 }

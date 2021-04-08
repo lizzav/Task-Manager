@@ -1,7 +1,8 @@
-import React, { useState, useCallback } from "react";
+import React from "react";
 import "./ModalProfile.scss";
 
 import { ReactComponent as Closed } from "../../svg/closed.svg";
+
 function ModalProfile({ active, setActive }) {
   return (
     <div>
@@ -18,14 +19,16 @@ function ModalProfile({ active, setActive }) {
           </div>
           <div className="modal-profile-content__title">Учетная запись </div>
 
-            <div className="modal-profile-content__info">
-              <div className="modal-profile-content__info-img">A</div>
-              <div className="modal-profile-content__info-item">
-                <div>Имя Фамилия</div>
-                <div className="modal-profile-content__info-item__email">pochta@gmail.com</div>
+          <div className="modal-profile-content__info">
+            <div className="modal-profile-content__info-img">A</div>
+            <div className="modal-profile-content__info-item">
+              <div>Имя Фамилия</div>
+              <div className="modal-profile-content__info-item__email">
+                pochta@gmail.com
               </div>
             </div>
-            <div className="modal-profile-content__menu">
+          </div>
+          <div className="modal-profile-content__menu">
             <div className="modal-profile-content__item">Профиль</div>
             <div className="modal-profile-content__item">Настройки</div>
 

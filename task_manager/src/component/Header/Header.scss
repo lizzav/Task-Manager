@@ -1,4 +1,5 @@
 @import "src/color";
+
 .header {
   background-color: $header;
   height: 50px;
@@ -9,6 +10,7 @@
   width: 100%;
   color: #000000;
   min-width: 530px;
+
   &__title {
     margin-left: 5px;
     font-style: normal;
@@ -17,11 +19,12 @@
     line-height: 30px;
     letter-spacing: 0.105em;
   }
+
   &__main {
     display: flex;
     width: 520px;
-    //align-items: center;
     justify-content: space-around;
+
     &__projects {
       display: flex;
       min-height: 30px;
@@ -30,18 +33,20 @@
       border-radius: 15px;
       font-size: 21px;
       line-height: 77%;
-align-items: center;
+      align-items: center;
       justify-content: center;
       cursor: pointer;
       color: #000000;
       flex: none;
       order: 0;
       flex-grow: 0;
-      &:hover{
+
+      &:hover {
         background-color: $main;
       }
     }
-    &__search{
+
+    &__search {
       display: flex;
       justify-content: space-around;
       align-items: center;
@@ -50,11 +55,12 @@ align-items: center;
       background: $search;
       height: 26px;
       border: 2px solid transparent;
-      &:hover{
-        border: 2px solid #0338EF;
+
+      &:hover {
+        border: 2px solid #0338ef;
       }
 
-      &-button{
+      &-button {
         padding: 0;
         cursor: pointer;
         width: 20px;
@@ -64,41 +70,44 @@ align-items: center;
         outline: none;
         background: transparent;
       }
-      &-input{
 
+      &-input {
         border: none;
         outline: none;
         background: transparent;
         width: 114px;
-        margin-left:10px ;
+        margin-left: 10px;
         font-weight: 300;
         font-size: 25px;
         line-height: 20px;
-        &:focus{
-          &::placeholder{
+
+        &:focus {
+          &::placeholder {
             color: transparent;
           }
         }
-        &::placeholder{
 
+        &::placeholder {
           color: $header;
-
         }
       }
     }
-&__icon{
-  height: 30px;
-  width: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  &:hover{
-    background-color: $main;
-    border-radius: 5px;
-  }
-}
-    &__profile{
+
+    &__icon {
+      height: 30px;
+      width: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $main;
+        border-radius: 5px;
+      }
+    }
+
+    &__profile {
       width: 30px;
       height: 30px;
       background: $main;

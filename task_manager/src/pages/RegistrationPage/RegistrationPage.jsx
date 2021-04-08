@@ -25,7 +25,6 @@ function LoginPage() {
   const handleSubmit = useCallback(
     async event => {
       event.preventDefault();
-      console.log("knopka");
     },
     [login, password]
   );
@@ -60,28 +59,22 @@ function LoginPage() {
               value={password}
               onChange={handlePasswordChange}
             />
-
             <Button text="Зарегистироваться" type="login" color="blue" />
-
           </div>
           <div className="login-form__link">
-            <div className="login-form__link__txt forgot"></div>
-
+            <div className="login-form__link__txt forgot" />
             <div className="login-form__link__reg">
               Войти через Google&nbsp;
               <Google className="login-form__link__reg__img" />
             </div>
-
             <div className="login-form__link__reg">
               Войти через Вконтакте&nbsp;
               <Vk className="login-form__link__reg__img" />
             </div>
-
             <div className="login-form__link__reg">
               Войти через Яндекс&nbsp;
               <Yandex className="login-form__link__reg__img" />
             </div>
-
             <div className="login-form__link__txt reg">
               Уже есть аккаунт? Войдите
             </div>

@@ -48,14 +48,18 @@ function Header() {
           >
             <Menu />
           </div>
-
           <div
             className="header__main__icon"
             onClick={() => setVisibleHelp(true)}
           >
             <Help />
           </div>
-          <div className="header__main__profile" onClick={() => setVisibleProfile(true)}> A</div>
+          <div
+            className="header__main__profile"
+            onClick={() => setVisibleProfile(true)}
+          >
+            A
+          </div>
         </div>
       </div>
 
