@@ -1,0 +1,56 @@
+@import "src/color";
+
+.form-button {
+  font-family: "Jost", sans-serif;
+  border-radius: 15px;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  color: #ffffff;
+  box-sizing: border-box;
+  font-style: normal;
+  width: 100%;
+  font-size: 25px;
+}
+
+.blue {
+  background: $button-blue;
+
+  &-no-active {
+    background-color: $button-light-blue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: auto;
+  }
+}
+
+.green {
+  background-color: $green;
+
+  &-no-active {
+    background-color: #8ef0b0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: auto;
+  }
+}
+
+.login {
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 43px;
+  size: 30px;
+  letter-spacing: 0.105em;
+  min-height: 60px;
+}
+
+.add-task {
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 100%;
+}
