@@ -20,12 +20,13 @@ const lists = {
       name:
         "shopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshops",
       status: 1,
+      description:"блаблабла",
       tags: [
         { id: 1, name: "disigner" },
         { id: 2, name: "error" }
       ],
       file: [123, 45],
-      author: [
+      users: [
         { id: 1, name: "d" },
         { id: 2, name: "e" }
       ]
@@ -58,7 +59,7 @@ const lists = {
         { id: 45, name: "error" },
         { id: 65, name: "error" }
       ],
-      author: [
+      users: [
         { id: 1, name: "d" },
         { id: 2, name: "e" }
       ]
@@ -117,7 +118,7 @@ function TasksInProjectPage() {
   const openTasks = id => {
     const Task = listTasks.filter(item => item.id === id);
 
-    setVisibleTasks(Task[0]);
+    setVisibleTasks(Task[0].id);
   };
   const handleStatusChange = useCallback(
     event => setStatusEditValue(event.target.value),
@@ -159,6 +160,30 @@ function TasksInProjectPage() {
     setVisibleListsAction("");
   };
 
+  const editDescriptionTask=(id,description)=>{
+    const idx = listTasks.findIndex(el => el.id === id);
+    const oldItem = listTasks[idx];
+    const newItem = { ...oldItem, description:description };
+    const newArray = [
+      ...listTasks.slice(0, idx),
+      newItem,
+      ...listTasks.slice(idx + 1)
+    ];
+    setListTasks(newArray);
+
+  };
+  const editTitleTaskF=(id,name)=>{
+    const idx = listTasks.findIndex(el => el.id === id);
+    const oldItem = listTasks[idx];
+    const newItem = { ...oldItem, name:name };
+    const newArray = [
+      ...listTasks.slice(0, idx),
+      newItem,
+      ...listTasks.slice(idx + 1)
+    ];
+    setListTasks(newArray);
+
+  };
   return (
     <div>
       <div className="header__project_list">
@@ -190,11 +215,10 @@ function TasksInProjectPage() {
         {status.map(statusArr => (
           <div className="lists__list" key={statusArr.id}>
             <div className="lists__list__header">
-              {" "}
               {editStatus === statusArr.id ? (
                 <div>
                   <div
-                    onClick={onChangeStatus(statusArr.id)}
+                    onClick={statusEditValue && onChangeStatus(statusArr.id)}
                     className="bg-close"
                   />
                   <input
@@ -222,7 +246,6 @@ function TasksInProjectPage() {
                 </div>
               )}
               <Ellipsis onClick={() => setVisibleListsAction(statusArr.id)} />
-              {console.log(visibleListsAction)}
             </div>
             {visibleListsAction === statusArr.id && (
               <div>
@@ -241,7 +264,7 @@ function TasksInProjectPage() {
                     <Closed />
                   </div>
                   <div className="modal-action-list__title">
-                    Действия со списком{" "}
+                    Действия со списком
                   </div>
 
                   <div
@@ -319,14 +342,14 @@ function TasksInProjectPage() {
                       </div>
                     )}
 
-                    {(taskOnList.author || taskOnList.file) && (
+                    {(taskOnList.users || taskOnList.file) && (
                       <div className="lists__list-tasks__task__bottom">
-                        {taskOnList.author && (
-                          <div className="lists__list-tasks__task__author">
-                            {taskOnList.author.map(users => (
+                        {taskOnList.users && (
+                          <div className="lists__list-tasks__task__users">
+                            {taskOnList.users.map(users => (
                               <div
                                 key={users.id}
-                                className="lists__list-tasks__task__author-item"
+                                className="lists__list-tasks__task__users-item"
                               >
                                 {users.name}
                               </div>
@@ -346,7 +369,6 @@ function TasksInProjectPage() {
             </div>
             {visibleAddTask === statusArr.id && (
               <div>
-                {" "}
                 <div
                   onClick={() =>
                     setAddTaskTitle("") || setVisibleAddTask(false)
@@ -421,7 +443,13 @@ function TasksInProjectPage() {
       <div>
         {visibleTasks && (
           <div>
-            <ModalInfoTasks active={visibleTasks} setActive={setVisibleTasks} />
+            <ModalInfoTasks
+              active={listTasks.filter(item => item.id === visibleTasks)[0]}
+              setActive={setVisibleTasks}
+              status={status}
+              editDescriptionTask={editDescriptionTask}
+              editTitleTaskF={editTitleTaskF}
+            />
           </div>
         )}
       </div>

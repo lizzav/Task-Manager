@@ -3,7 +3,7 @@
 .task-info {
   height: 100%;
   width: 100%;
-  top: 0px;
+  top: 0;
   position: fixed;
   background-color: rgba(0, 0, 0, 0.22);
   display: flex;
@@ -24,11 +24,48 @@
     line-height: 100%;
     font-weight: 400;
     justify-content: space-between;
-
+    &-edit {
+      height: 23px;
+      width: 23px;
+      margin-left: 10px;
+      cursor: pointer;
+& svg{ padding: 1px;
+  height: 15px;
+  width: 15px;
+}
+    }
     &__header {
-      min-height: 41px;
+      min-height: 50px;
 
       &-title {
+        display: flex;
+        align-items: center;
+        min-height: 33px;
+        max-height: 33px;
+      &-txt{
+        display: flex;
+        align-items: center;
+      }
+        &__edit {
+
+          min-height: 33px;
+          max-height: 33px;
+          border: none;
+          outline: none;
+min-width: 760px;
+          max-width: 760px;
+          font-weight: normal;
+          font-size: 25px;
+          line-height: 100%;
+          box-sizing: border-box;
+          border-radius: 15px;
+          background-color: $tasks;
+          position: relative;
+          z-index: 100;
+          padding: 0;
+          padding-left: 10px;
+          margin-left: -10px;
+        }
       }
 
       &-list {
@@ -40,9 +77,40 @@
 
     &__description {
       min-height: 105px;
-      background-color: #00ee51;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
+&-header{
+  display: flex;
+  align-items: center;
+  & button{
+    width: 106px;
+    margin-left: 15px;
+  }
+
+}
+      &-input {
+        margin-right: 75px;
+        resize: none;
+        border: none;
+        outline: none;
+        background-color: $tasks;
+        border-radius: 15px;
+        min-height: 70px;
+        font-weight: normal;
+        font-size: 17px;
+        line-height: 100%;
+        padding: 10px 15px;
+        box-sizing: border-box;
+        color: #000000;
+        &::placeholder {
+          color: $header;
+        }
+        &:disabled {
+
+
+        }
+      }
     }
 
     &__tags {
@@ -52,6 +120,7 @@
       justify-content: space-between;
 
       &-title {
+        display: flex;
       }
 
       &__content {
@@ -80,6 +149,28 @@
       flex-direction: column;
       min-height: 63px;
       background-color: #00ee51;
+      &-title{
+        display: flex;
+      }
+      &-container{
+        display: flex;
+
+      }
+      &-item{
+        width: 30px;
+        height: 30px;
+        background: $main;
+        border-radius: 50%;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        margin-left: 5px;
+        text-transform: capitalize
+      }
     }
 
     &__file {
