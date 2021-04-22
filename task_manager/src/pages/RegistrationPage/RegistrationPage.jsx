@@ -30,29 +30,29 @@ function LoginPage() {
   );
 
   return (
-    <div className="login-page">
-      <div className="login-page__title">ToDo</div>
-      <div className="login-page__content">
-        <div className="login-page__content__title">Регистрация в ToDO</div>
-        <form className="login-form" onSubmit={handleSubmit}>
-          <div className="login-form__form">
+    <div className="registration-page">
+      <div className="registration-page__title">ToDo</div>
+      <div className="registration-page__content">
+        <div className="registration-page__content__title">Регистрация в ToDO</div>
+        <form className="registration-form" onSubmit={handleSubmit}>
+          <div className="registration-form__form">
             <input
-              className="login-form__form__input"
+              className="registration-form__form__input"
               placeholder={"Введите адрес электронной почты"}
-              name="login"
+              name="email"
               type="email"
               value={login}
               onChange={handleLoginChange}
             />
             <input
-              className="login-form__form__input"
+              className="registration-form__form__input"
               placeholder={"Введите имя"}
               name="name"
               value={name}
               onChange={handleNameChange}
             />
             <input
-              className="login-form__form__input"
+              className="registration-form__form__input"
               name="password"
               placeholder={"Введите пароль"}
               type="password"
@@ -61,21 +61,21 @@ function LoginPage() {
             />
             <Button text="Зарегистироваться" type="login" color="blue" />
           </div>
-          <div className="login-form__link">
-            <div className="login-form__link__txt forgot" />
-            <div className="login-form__link__reg">
+          <div className="registration-form__link">
+            <div className="registration-form__link__txt forgot" />
+            <div className="registration-form__link__reg">
               Войти через Google&nbsp;
-              <Google className="login-form__link__reg__img" />
+              <Google className="registration-form__link__reg__img" />
             </div>
-            <div className="login-form__link__reg">
+            <div className="registration-form__link__reg">
               Войти через Вконтакте&nbsp;
-              <Vk className="login-form__link__reg__img" />
+              <Vk className="registration-form__link__reg__img" />
             </div>
-            <div className="login-form__link__reg">
+            <div className="registration-form__link__reg">
               Войти через Яндекс&nbsp;
-              <Yandex className="login-form__link__reg__img" />
+              <Yandex className="registration-form__link__reg__img" />
             </div>
-            <div className="login-form__link__txt reg">
+            <div className="registration-form__link__txt reg">
               Уже есть аккаунт? Войдите
             </div>
           </div>

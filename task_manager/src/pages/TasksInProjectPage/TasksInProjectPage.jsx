@@ -6,83 +6,65 @@ import { ReactComponent as Star } from "../../svg/Star.svg";
 import { ReactComponent as Edit } from "../../svg/edit.svg";
 import { ReactComponent as Ellipsis } from "../../svg/ellipsis.svg";
 import { ReactComponent as Closed } from "../../svg/closed.svg";
+import { useRouteMatch } from "react-router";
 
 import Button from "../../component/Button";
 import ModalInfoTasks from "../../component/ModalInfoTasks";
 import ModalAddStatus from "../../component/ModalAddStatus";
+import Header from "../../component/Header";
+import { connect } from "react-redux";
+import {
+  addListCreator,
+  copyListCreator, deleteListCreator,
+  isFavouriteCreator, sendTaskCreator,
+  updateDescriptionTitleCreator, updateListCreator,
+  updateTasksTitleCreator
+} from "../../redux/projects-reducer";
 
-const lists = {
-  id: 1,
-  name: "shops",
-  tasks: [
-    {
-      id: 1,
-      name:
-        "shopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshopsshops",
-      status: 1,
-      description:"блаблабла",
-      tags: [
-        { id: 1, name: "disigner" },
-        { id: 2, name: "error" }
-      ],
-      file: [123, 45],
-      users: [
-        { id: 1, name: "d" },
-        { id: 2, name: "e" }
-      ]
-    },
-    {
-      id: 145,
-      name: "shops",
-      status: 1,
-      tags: [
-        { id: 1, name: "disigner10" },
-        { id: 2, name: "disigner10" },
-
-        { id: 22, name: "error" },
-        { id: 42, name: "error" },
-        { id: 62, name: "error" },
-
-        { id: 14, name: "disigner" },
-        { id: 23, name: "error" },
-        { id: 44, name: "error" },
-        { id: 64, name: "error" },
-
-        { id: 15, name: "disigner" },
-        { id: 25, name: "error" },
-        { id: 45, name: "error" },
-        { id: 65, name: "error" }
-      ],
-      file: [
-        { id: 15, name: "disigner" },
-        { id: 25, name: "error" },
-        { id: 45, name: "error" },
-        { id: 65, name: "error" }
-      ],
-      users: [
-        { id: 1, name: "d" },
-        { id: 2, name: "e" }
-      ]
-    }
-  ],
-  status: [
-    { id: 1, name: "status1" },
-    { id: 2, name: "status2" }
-  ],
-  user: [
-    { id: 1, name: "D" },
-    { id: 2, name: "D" },
-    { id: 3, name: "H" },
-    { id: 4, name: "E" }
-  ],
-  favorites: false
+let mapStateToProps = state => {
+  return {
+    state: state.main
+  };
 };
 
-function TasksInProjectPage() {
-  const [list, setList] = useState(lists);
-  const [listTasks, setListTasks] = useState(lists.tasks);
-  const [favorites, setFavorites] = useState(lists.favorites);
-  const [status, setStatus] = useState(lists.status);
+let mapDispatchToProps = dispatch => {
+  return {
+    updateTaskTitle: (newArray, idx) => {
+      dispatch(updateTasksTitleCreator(newArray, idx));
+    },
+    updateFavorite: id => {
+      dispatch(isFavouriteCreator(id));
+    },
+    updateTasksDescription: (id, description) => {
+      dispatch(updateDescriptionTitleCreator(id, description));
+    },
+    copyList: (projectId, statusId) => {
+      dispatch(copyListCreator(projectId, statusId));
+    },
+    deleteList:(projectId, statusId) => {
+      dispatch(deleteListCreator(projectId, statusId));
+    },
+    updateList:(projectId, statusId,name)=>{
+      dispatch(updateListCreator(projectId, statusId,name))
+    },
+    addList: (projectId,name)=>{
+      dispatch(addListCreator(projectId,name))
+    },
+sendTask:(projectId, statusId,name)=>{
+      dispatch(sendTaskCreator(projectId, statusId,name))
+}
+  };
+};
+
+function TasksInProjectPage(props) {
+  const { params } = useRouteMatch("/projects/:id");
+  const listTasks = props.state.tasks.filter(
+    task => task.projectId === parseInt(params.id)
+  );
+  const project = props.state.projects.filter(
+    project => project.id === parseInt(params.id)
+  );
+const status=project[0].status;
   const [statusEditValue, setStatusEditValue] = useState("");
   const [visibleAddTask, setVisibleAddTask] = useState(false);
   const [addTaskTitle, setAddTaskTitle] = useState("");
@@ -97,27 +79,17 @@ function TasksInProjectPage() {
 
   const submitTask = id => event => {
     event.preventDefault();
-    const newList = {
-      id: Math.random(),
-      name: addTaskTitle,
-      status: id
-    };
-    setListTasks([...listTasks, newList]);
+    props.sendTask(params.id,id,addTaskTitle);
     setAddTaskTitle("");
     setVisibleAddTask(false);
   };
   const addStatus = name => event => {
     event.preventDefault();
-    const newStatus = {
-      id: Math.random(),
-      name: name
-    };
-    setStatus([...status, newStatus]);
+    props.addList(params.id,name);
     setVisibleAddStatus(false);
   };
   const openTasks = id => {
     const Task = listTasks.filter(item => item.id === id);
-
     setVisibleTasks(Task[0].id);
   };
   const handleStatusChange = useCallback(
@@ -127,72 +99,39 @@ function TasksInProjectPage() {
 
   const onChangeStatus = id => event => {
     event.preventDefault();
-    const idx = status.findIndex(el => el.id === id);
-    const oldItem = status[idx];
-    const newItem = { ...oldItem, name: statusEditValue };
-    const newArray = [
-      ...status.slice(0, idx),
-      newItem,
-      ...status.slice(idx + 1)
-    ];
-    setStatus(newArray);
+    props.updateList(params.id,id,statusEditValue);
     setEditStatus(false);
     setStatusEditValue("");
   };
   const deleteList = id => {
-    const idx = status.findIndex(el => el.id === id);
-    const newArray = [...status.slice(0, idx), ...status.slice(idx + 1)];
-    setStatus(newArray);
+   props.deleteList(params.id,id);
     setVisibleListsAction("");
   };
-  const copyList = id => {
-    const idx = status.findIndex(el => el.id === id);
-    const oldItem = status[idx];
-    const newItem = { ...oldItem, id: Math.random() };
+  const copyLists = id => {
+    props.copyList(params.id,id);
 
-    const newArray = [
-      ...status.slice(0, idx),
-      oldItem,
-      newItem,
-      ...status.slice(idx + 1)
-    ];
-    setStatus(newArray);
     setVisibleListsAction("");
   };
 
-  const editDescriptionTask=(id,description)=>{
-    const idx = listTasks.findIndex(el => el.id === id);
-    const oldItem = listTasks[idx];
-    const newItem = { ...oldItem, description:description };
-    const newArray = [
-      ...listTasks.slice(0, idx),
-      newItem,
-      ...listTasks.slice(idx + 1)
-    ];
-    setListTasks(newArray);
-
+  const editDescriptionTask = (id, description) => {
+    props.updateTasksDescription(id, description);
   };
-  const editTitleTaskF=(id,name)=>{
-    const idx = listTasks.findIndex(el => el.id === id);
-    const oldItem = listTasks[idx];
-    const newItem = { ...oldItem, name:name };
-    const newArray = [
-      ...listTasks.slice(0, idx),
-      newItem,
-      ...listTasks.slice(idx + 1)
-    ];
-    setListTasks(newArray);
-
+  const editTitleTaskF = (id, name) => {
+    props.updateTaskTitle(id, name);
   };
   return (
     <div>
+      <Header />
+
       <div className="header__project_list">
         <div className="header__project_list__title">
-          <div className="header__project_list__title-name">{list.name}</div>
+          <div className="header__project_list__title-name">
+            {project[0].name}
+          </div>
 
           <div
-            className={`header__project_list__title-svg-${favorites}`}
-            onClick={() => setFavorites(!favorites)}
+            className={`header__project_list__title-svg-${project[0].isFavorite}`}
+            onClick={() => props.updateFavorite(params.id)}
           >
             <Star />
           </div>
@@ -200,10 +139,10 @@ function TasksInProjectPage() {
 
         <div className="header__project_list__users">
           Участники:
-          {list.user &&
-            list.user.map(user => (
+          {project[0].users &&
+            project[0].users.map(user => (
               <div className="header__project_list__users-item" key={user.id}>
-                {user.name}
+                {user.name.substring(0, 1)}
               </div>
             ))}
           <div className="header__project_list__users-add">
@@ -269,7 +208,7 @@ function TasksInProjectPage() {
 
                   <div
                     className="modal-action-list__item"
-                    onClick={() => copyList(statusArr.id)}
+                    onClick={() => copyLists(statusArr.id)}
                   >
                     Копировать список
                   </div>
@@ -294,7 +233,7 @@ function TasksInProjectPage() {
             )}
             <div className="lists__list-tasks">
               {listTasks
-                .filter(item => item.status === statusArr.id)
+                .filter(item => item.statusId === statusArr.id)
                 .map(taskOnList => (
                   <div
                     className="lists__list-tasks__task"
@@ -313,32 +252,26 @@ function TasksInProjectPage() {
                     </div>
                     {taskOnList.tags && (
                       <div className="lists__list-tasks__task__tags">
-                        {taskOnList.tags.length < 5
-                          ? taskOnList.tags.map(tags => (
-                              <div
-                                key={tags.id}
-                                className="lists__list-tasks__task__tags-item"
-                              >
-                                {tags.name.length > 8
-                                  ? `${tags.name.substring(0, 5)}...`
-                                  : tags.name}
-                              </div>
-                            ))
-                          : taskOnList.tags.slice(0, 4).map(tags => (
-                              <div
-                                key={tags.id}
-                                className="lists__list-tasks__task__tags-item"
-                              >
-                                {tags.name.length > 8
-                                  ? `${tags.name.substring(0, 5)}...`
-                                  : tags.name}
-                              </div>
-                            ))}
+                        {taskOnList.tags.slice(0, 4).map(tagsId =>
+                          props.state.tags.map(
+                            tags =>
+                              tags.id === tagsId && (
+                                <div
+                                  key={tags.id}
+                                  className="lists__list-tasks__task__tags-item"
+                                >
+                                  {tags.name.length > 8
+                                    ? `${tags.name.substring(0, 5)}...`
+                                    : tags.name}
+                                </div>
+                              )
+                          )
+                        )}
                       </div>
                     )}
                     {taskOnList.file && (
                       <div className="lists__list-tasks__task__file">
-                        {taskOnList.file[0].name}
+                        {taskOnList.file[0]}
                       </div>
                     )}
 
@@ -346,14 +279,19 @@ function TasksInProjectPage() {
                       <div className="lists__list-tasks__task__bottom">
                         {taskOnList.users && (
                           <div className="lists__list-tasks__task__users">
-                            {taskOnList.users.map(users => (
-                              <div
-                                key={users.id}
-                                className="lists__list-tasks__task__users-item"
-                              >
-                                {users.name}
-                              </div>
-                            ))}
+                            {project[0].users.map(user =>
+                              taskOnList.users.map(
+                                userId =>
+                                  user.id === userId && (
+                                    <div
+                                      key={user.id}
+                                      className="lists__list-tasks__task__users-item"
+                                    >
+                                      {user.name.substring(0, 1)}
+                                    </div>
+                                  )
+                              )
+                            )}
                           </div>
                         )}
                         {taskOnList.file && (
@@ -449,6 +387,8 @@ function TasksInProjectPage() {
               status={status}
               editDescriptionTask={editDescriptionTask}
               editTitleTaskF={editTitleTaskF}
+              users={project[0].users}
+              tags={props.state.tags}
             />
           </div>
         )}
@@ -457,4 +397,4 @@ function TasksInProjectPage() {
   );
 }
 
-export default TasksInProjectPage;
+export default connect(mapStateToProps, mapDispatchToProps)(TasksInProjectPage);

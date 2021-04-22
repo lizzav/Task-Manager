@@ -1,11 +1,17 @@
 import React, { useState, useCallback } from "react";
 import "./ModalInfoTasks.scss";
-
-import { ReactComponent as Closed } from "../../svg/closed.svg";
 import { ReactComponent as Edit } from "../../svg/edit.svg";
 import Button from "../Button";
 
-function ModalInfoTasks({ active, setActive, status, editDescriptionTask,editTitleTaskF }) {
+function ModalInfoTasks({
+  active,
+  setActive,
+  status,
+  editDescriptionTask,
+  editTitleTaskF,
+  users,
+  tags
+}) {
   const [editDescription, setEditDescription] = useState(false);
   const [editTitleTask, setEditTitleTask] = useState(false);
   const [editTitleTaskValue, setEditTitleTaskValue] = useState(false);
@@ -21,7 +27,7 @@ function ModalInfoTasks({ active, setActive, status, editDescriptionTask,editTit
     editDescriptionTask(active.id, editDescriptionValue);
     setEditDescription(false);
   };
-  const handleTitleTaskChange= useCallback(
+  const handleTitleTaskChange = useCallback(
     event => setEditTitleTaskValue(event.target.value),
     []
   );
@@ -32,13 +38,11 @@ function ModalInfoTasks({ active, setActive, status, editDescriptionTask,editTit
   return (
     <div className="task-info" onClick={() => setActive(false)}>
       <div className="task-info__content" onClick={e => e.stopPropagation()}>
-        <div className="task-info__content__header">
+         <div className="task-info__content__header">
           <div className="task-info__content__header-title">
-                         {editTitleTask ?<div>
-                <div
-                  onClick={closeEditTitleTask}
-                  className="bg-close"
-                />
+            {editTitleTask ? (
+              <div>
+                <div onClick={closeEditTitleTask} className="bg-close" />
                 <input
                   className="task-info__content__header-title__edit"
                   onClick={e => e.stopPropagation()}
@@ -49,22 +53,27 @@ function ModalInfoTasks({ active, setActive, status, editDescriptionTask,editTit
                   type="text"
                   value={editTitleTaskValue}
                 />
-              </div>:<div className="task-info__content__header-title-txt" onClick={() =>
-                setEditTitleTask(active.id) ||
-                setEditTitleTaskValue(active.name)
-              } >{active.name.length > 60
-              ? `${active.name.substring(0, 60)}...`
-                : active.name}<div className="task-info__content-edit">
-                           <Edit />
-                         </div></div>}
-
-
-
-
+              </div>
+            ) : (
+              <div
+                className="task-info__content__header-title-txt"
+                onClick={() =>
+                  setEditTitleTask(active.id) ||
+                  setEditTitleTaskValue(active.name)
+                }
+              >
+                {active.name.length > 60
+                  ? `${active.name.substring(0, 60)}...`
+                  : active.name}
+                <div className="task-info__content-edit">
+                  <Edit />
+                </div>
+              </div>
+            )}
           </div>
           <div className="task-info__content__header-list">
             Находится в списке “
-            {status.filter(item => item.id === active.status)[0].name}”
+            {status.filter(item => item.id === active.statusId)[0].name}”
           </div>
         </div>
         <div className="task-info__content__description">
@@ -108,35 +117,42 @@ function ModalInfoTasks({ active, setActive, status, editDescriptionTask,editTit
             </div>
           </div>
           <div className="task-info__content__tags__content">
-            {active.tags &&
-              active.tags.map(tag => (
-                <div
-                  className="task-info__content__tags__content-item"
-                  key={tag.id}
-                >
-                  {tag.name}
-                </div>
-              ))}
+             {active.tags && active.tags.map(tagsId =>
+              tags.map(
+                tag =>
+                  tag.id === tagsId && (
+                    <div
+                      key={tag.id}
+                      className="task-info__content__tags__content-item"
+                    >
+                      {tag.name}
+                    </div>
+                  )
+              )
+            )}
           </div>
         </div>
         <div className="task-info__content__users">
           <div className="task-info__content__users-title">
-            <div >Участники</div>
+            <div>Участники</div>
             <div className="task-info__content-edit">
               <Edit />
             </div>
           </div>
-<div className="task-info__content__users-container"> {active.users &&
-active.users.map(user => (
-  <div
-    className="task-info__content__users-item"
-    key={user.id}
-  >
-    {user.name}
-    {console.log(user)}
-  </div>
-))}</div>
+          <div className="task-info__content__users-container">
+            {active.users &&
+            users.map(user =><div key={user.id}> {active.users.map(
+              userId =>
+              user.id === userId && (
+              <div className="task-info__content__users-item" key={userId}>
+                {user.name.substring(0, 1)}
+              </div>
+              )
+              )}</div>
 
+              )}
+
+          </div>
         </div>
         <div className="task-info__content__file">
           <div>Вложения</div>

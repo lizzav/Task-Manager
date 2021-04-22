@@ -1,0 +1,53 @@
+@import "src/color";
+.menu {
+  height: 60px;
+  display: flex;
+  min-width: 1100px;
+  position: relative;
+  justify-content: space-between;
+  background: #c7cdff;
+  width: 100%;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+  &__content {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 100%;
+    display: flex;
+    justify-content: space-around;
+    min-width: 890px;
+    align-items: flex-end;
+    padding: 0 80px;
+    box-sizing: border-box;
+    &__item {
+      padding: 16px 30px 10px;
+      text-decoration: none;
+      color: black;
+      &-active {
+        background: $main;
+        border-radius: 15px 15px 0 0;
+        padding: 16px 30px 16px;
+        margin-bottom: -6px;
+      }}
+
+  }
+  &-add-new-project {
+    cursor: pointer;
+    margin-top: 9px;
+    margin-right: 20px;
+    justify-content: center;
+    box-sizing: border-box;
+    border-radius: 15px;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 43px;
+    display: flex;
+    align-items: center;
+    min-width: 183px;
+    background-color: #f5f6ff;
+    height: 44px;
+    color: #a3acff;
+    & path {
+      fill: #a3acff;
+    }
+  }
+}

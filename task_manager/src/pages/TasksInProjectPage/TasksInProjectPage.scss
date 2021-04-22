@@ -8,7 +8,6 @@
   justify-content: flex-start;
   position: fixed;
   width: 100%;
-
   &__title {
     background: #d1d5ff;
     border-radius: 15px;
@@ -26,7 +25,6 @@
     }
 
     &-svg {
-
       &-true {
         display: flex;
         justify-content: center;
@@ -175,18 +173,6 @@
 
     &-tasks {
       overflow: auto;
-
-      &::-webkit-scrollbar {
-        width: 7px;
-        background-color: lightgray;
-        border-radius: 15px;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background-color: gray;
-        border-radius: 15px;
-      }
-
       &__task {
         display: flex;
         width: 386px;
@@ -311,7 +297,7 @@
             justify-content: center;
             color: #ffffff;
             margin-right: 5px;
-            text-transform: capitalize
+            text-transform: capitalize;
           }
         }
       }
@@ -426,11 +412,14 @@
 input {
   font-family: "Jost", sans-serif;
 }
+textarea{
+  font-family: "Jost", sans-serif;
+}
 
 .modal-action-list {
   display: flex;
   position: absolute;
-  z-index: 10;
+  z-index: 100;
   margin-left: 106px;
   width: 310px;
   height: 210px;

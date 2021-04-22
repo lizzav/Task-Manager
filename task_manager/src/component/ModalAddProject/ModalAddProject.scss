@@ -1,0 +1,59 @@
+@import "src/color";
+
+
+.modal-project {
+    border-radius: 15px;
+    width: 712px;
+    height: 410px;
+    background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 34px 75px 24px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 100%;
+    &-bg{
+      background-color:  rgba(0, 0, 0, 0.22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &__closed {
+      position: absolute;
+      top: 5px;
+      right: 30px;
+      cursor: pointer;
+    }
+
+  &__input {
+    background: $tasks;
+    outline: none;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 25px;
+    line-height: 100%;
+    width: 100%;
+    border: 1px solid $button-blue;
+    box-sizing: border-box;
+    border-radius: 15px;
+    min-height: 57px;
+
+    &::placeholder {
+      color: $header;
+      font-weight: 300;
+      font-size: 25px;
+      line-height: 100%;
+    }
+  }
+&__button{
+  height: 45px;
+  width: 147px;
+button {
+  height: 45px;
+}}
+
+    }
+
