@@ -60,6 +60,8 @@
       align-items: center;
       display: flex;
       height: 40px;
+      text-decoration: none;
+      color: black;
 
       &:hover {
         background-color: $tasks;

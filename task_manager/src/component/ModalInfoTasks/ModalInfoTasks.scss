@@ -67,11 +67,30 @@ min-width: 760px;
           margin-left: -10px;
         }
       }
-
+&-sub{
+  display: flex;
+  align-items: center;
+}
       &-list {
         font-size: 15px;
         line-height: 70.5%;
         color: #c0c0c0;
+      }
+      &-delete{
+        cursor: pointer;
+        margin-left: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        height: 16px;
+        width: 67px;
+        border-radius: 15px;
+        background-color:#D1D5FF;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 14px;
+        line-height: 100%;;
       }
     }
 
@@ -116,14 +135,16 @@ min-width: 760px;
     &__tags {
       display: flex;
       flex-direction: column;
-      min-height: 52px;
+
       justify-content: space-between;
 
       &-title {
         display: flex;
+        height: 25px;
       }
 
       &__content {
+        min-height: 27px;
         flex-wrap: wrap;
         flex-direction: row;
         display: flex;
@@ -155,21 +176,6 @@ min-width: 760px;
       &-container{
         display: flex;
 
-      }
-      &-item{
-        width: 30px;
-        height: 30px;
-        background: $main;
-        border-radius: 50%;
-        cursor: pointer;
-        font-weight: 500;
-        font-size: 25px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #ffffff;
-        margin-left: 5px;
-        text-transform: capitalize
       }
     }
 

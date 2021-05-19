@@ -8,11 +8,13 @@
   justify-content: space-between;
   position: fixed;
   width: 100%;
-  top:0;
+  top: 0;
   color: #000000;
   min-width: 530px;
-z-index: 2;
+  z-index: 2;
   &__title {
+    text-decoration: none;
+    color: black;
     margin-left: 5px;
     font-style: normal;
     font-weight: 500;
@@ -109,18 +111,7 @@ z-index: 2;
     }
 
     &__profile {
-      width: 30px;
-      height: 30px;
-      background: $main;
-      border-radius: 50%;
       cursor: pointer;
-      font-weight: 500;
-      font-size: 25px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
-      text-transform: capitalize
     }
   }
 }

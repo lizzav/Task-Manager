@@ -46,6 +46,8 @@
     }
 
     &__item {
+      text-decoration: none;
+      color: black;
       cursor: pointer;
       padding-left: 10px;
       align-items: center;
@@ -83,7 +85,8 @@
         display: flex;
         flex-direction: column;
         margin-left: 10px;
-
+        text-decoration: none;
+        color: black;
         &__email {
           height: 35px;
           font-size: 15px;

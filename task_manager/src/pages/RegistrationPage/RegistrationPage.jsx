@@ -33,7 +33,9 @@ function LoginPage() {
     <div className="registration-page">
       <div className="registration-page__title">ToDo</div>
       <div className="registration-page__content">
-        <div className="registration-page__content__title">Регистрация в ToDO</div>
+        <div className="registration-page__content__title">
+          Регистрация в ToDO
+        </div>
         <form className="registration-form" onSubmit={handleSubmit}>
           <div className="registration-form__form">
             <input

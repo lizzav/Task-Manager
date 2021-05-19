@@ -8,8 +8,16 @@ import { ReactComponent as Bell } from "../../svg/bell.svg";
 import { ReactComponent as Help } from "../../svg/Help.svg";
 import { ReactComponent as Menu } from "../../svg/Menu.svg";
 import { ReactComponent as Search } from "../../svg/Search.svg";
+import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
+import Users from "../Users";
 
-function Header() {
+let mapStateToProps = state => {
+  return {
+    user: state.users.profile
+  };
+};
+function Header(props) {
   const [search, setSearch] = useState("");
   const [visibleMenu, setVisibleMenu] = useState(false);
   const [visibleHelp, setVisibleHelp] = useState(false);
@@ -21,8 +29,11 @@ function Header() {
 
   return (
     <div>
+      {console.log(props.users)}
       <div className="header">
-        <div className="header__title">Todo</div>
+        <NavLink to="/" className="header__title">
+          Todo
+        </NavLink>
         <div className="header__main">
           <div className="header__main__projects">Другие пректы</div>
           <form className="header__main__search">
@@ -58,7 +69,7 @@ function Header() {
             className="header__main__profile"
             onClick={() => setVisibleProfile(true)}
           >
-            A
+            <Users userIdArray={[props.user.id]} count={1} />
           </div>
         </div>
       </div>
@@ -76,4 +87,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default connect(mapStateToProps)(Header);

@@ -1,29 +1,21 @@
 import React from "react";
-
 import "./MainPage.scss";
 import Menu from "../../component/Menu";
-
-import { NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { ReactComponent as Star } from "../../svg/Star.svg";
 import Header from "../../component/Header";
 import { connect } from "react-redux";
-import { sendProjectCreator } from "../../redux/projects-reducer";
+import Users from "../../component/Users";
 
 let mapStateToProps = state => {
   return {
-    state: state.main
-  };
-};
-let mapDispatchToProps = dispatch => {
-  return {
-    sendMessage: name => {
-      dispatch(sendProjectCreator(name));
-    }
+    state: state.main,
+    users: state.users.users
   };
 };
 
 function MainPage(props) {
-    return (
+  return (
     <div className="main-page">
       <div>
         <Header />
@@ -35,8 +27,12 @@ function MainPage(props) {
           <div className="main-page__content-title">Последние проекты</div>
           <div className="main-page__content__projects">
             {props.state.projects.map(project => (
-              <NavLink to={`/projects/${project.id}`} className="main-page__content__project" key={project.id}>
-                  <div className="main-page__content__project-title">
+              <NavLink
+                to={`/projects/${project.id}`}
+                className="main-page__content__project"
+                key={project.id}
+              >
+                <div className="main-page__content__project-title">
                   <div className="main-page__content__project-title-svg">
                     {project.isFavorite === true && <Star />}
                   </div>
@@ -50,57 +46,51 @@ function MainPage(props) {
                 </div>
                 <div className="main-page__content__project-item">
                   <div>Руководитель&ensp;</div>
-
-                    {project.author &&
-                    project.author.slice(0, 2).map(user => (
-                      <div
-                        className="main-page__content__project-item__user"
-                        key={user.id}
-                      >
-                        {user.name.substring(0, 1)}
-                      </div>
-                    ))}
-                  </div>
+                  <Users userIdArray={project.author} count={3} />
+                </div>
                 <div className="main-page__content__project-item">
                   <div>Участники&ensp;</div>
-                  {project.users &&
-                    project.users.slice(0, 3).map(user => (
-                      <div
-                        className="main-page__content__project-item__user"
-                        key={user.id}
-                      >
-                        {user.name.substring(0, 1)}
-                      </div>
-                    ))}
-                  {project.users && project.users.length > 3 && (
-                    <div className="main-page__content__project-item__more-user">{`+${project
-                      .users.length - 3}`}</div>
-                  )}
+
+                  <Users userIdArray={project.users} count={3} more={3} />
                 </div>
               </NavLink>
             ))}
           </div>
           <div className="main-page__content-title">Последние действия</div>
           <div className="main-page__content__action">
-            <div className="main-page__content__action-item">
-              <div className="main-page__content__project-item__user">A</div>
-              <div>
-                &ensp; Имя Фамилия добавила новую задачу на доску{" "}
-                <u>Название</u>{" "}
-              </div>
-            </div>
-            <div className="main-page__content__action-item">
-              <div className="main-page__content__project-item__user">A</div>
-              <div>
-                Имя Фамилия добавила новую задачу на доску <u>Название</u>{" "}
-              </div>
-            </div>
-            <div className="main-page__content__action-item">
-              <div className="main-page__content__project-item__user">A</div>
-              <div>
-                Имя Фамилия добавила новую задачу на доску <u>Название</u>{" "}
-              </div>
-            </div>
+            {console.log(props.state.newAction)}
+            {props.state.newAction &&
+              props.state.newAction.map(action => (
+                <div
+                  className="main-page__content__action-item"
+                  key={action.id}
+                >
+                  {console.log(action, "action")}
+                  <Users
+                    userIdArray={[action.users]}
+                    count={1}
+                    userName={true}
+                  />
+                  {props.state.actions.map(
+                    act =>
+                      act.id === action.type && (
+                        <div key={act.id}>{act.name} &nbsp;</div>
+                      )
+                  )}
+                  {props.state.projects.map(
+                    projects =>
+                      projects.id === action.project && (
+                        <NavLink
+                          className="main-page__content__action-item__link"
+                          to={`/projects/${projects.id}`}
+                          key={projects.id}
+                        >
+                          <u>{projects.name}</u>
+                        </NavLink>
+                      )
+                  )}
+                </div>
+              ))}
           </div>
         </div>
       </div>
@@ -108,9 +98,4 @@ function MainPage(props) {
   );
 }
 
-const MainPageContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MainPage);
-
-export default MainPageContainer;
+export default connect(mapStateToProps)(MainPage);

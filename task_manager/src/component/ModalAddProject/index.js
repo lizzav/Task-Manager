@@ -1,1 +1,1 @@
-export { default } from './ModalAddProject';
+export { default } from "./ModalAddProject";

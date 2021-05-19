@@ -1,10 +1,10 @@
-import React, { useState, useCallback } from "react";
+import React from "react";
 import "./ModalHelp.scss";
 
 import { ReactComponent as Closed } from "../../svg/closed.svg";
+import { NavLink } from "react-router-dom";
 
 function ModalHelp({ active, setActive }) {
-
   return (
     <div>
       <div className="modal-help" onClick={() => setActive(false)}>
@@ -18,10 +18,12 @@ function ModalHelp({ active, setActive }) {
           <div className="modal-help-content__title">Справка </div>
           <div className="modal-help-content__menu">
             <div className="modal-help-content__item">Помощь</div>
-            <div className="modal-help-content__item">Условия пользования</div>
-            <div className="modal-help-content__item">
+            <NavLink to="/useconditions" className="modal-help-content__item">
+              Условия пользования
+            </NavLink>
+            <NavLink to="/privacy" className="modal-help-content__item">
               Политика конфиденциальности
-            </div>
+            </NavLink>
           </div>
         </div>
       </div>

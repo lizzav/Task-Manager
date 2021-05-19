@@ -1,0 +1,14 @@
+@import "src/color";
+.tags {
+  min-height: 20px;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 100%;
+  color: #ffffff;
+  background-color: $green;
+  border-radius: 15px;
+  margin-right: 10px;
+  box-sizing: border-box;
+  padding: 0 15px;
+  margin-top: 10px;
+}

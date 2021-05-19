@@ -19,8 +19,7 @@
 
 .blue {
   background: $button-blue;
-  &:hover{
-
+  &:hover {
     border: 2px solid $accent-blue;
   }
   &-no-active {
@@ -34,10 +33,9 @@
 
 .green {
   background-color: $green;
-&:hover{
-
-  border: 2px solid $green;
-}
+  &:hover {
+    border: 2px solid $green;
+  }
   &-no-active {
     background-color: #8ef0b0;
     display: flex;
@@ -61,7 +59,7 @@
   font-size: 25px;
   line-height: 100%;
 }
-.add-description-task{
+.add-description-task {
   font-weight: 500;
   font-size: 18px;
   line-height: 100%;

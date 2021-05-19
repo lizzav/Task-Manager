@@ -5,7 +5,6 @@ import Button from "../Button";
 import { ReactComponent as Closed } from "../../svg/closed.svg";
 
 function ModalAddStatus({ active, setActive, addStatus }) {
-
   const [statusValue, setStatusValue] = useState("");
   const handleStatusChange = useCallback(
     event => setStatusValue(event.target.value),

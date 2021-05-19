@@ -1,26 +1,18 @@
-import React, {useCallback, useState} from "react";
+import React, { useCallback, useState } from "react";
 import "./ModalAddProject.scss";
 
 import Button from "../Button";
-import {sendProjectCreator} from "../../redux/projects-reducer";
-import {connect} from "react-redux";
-
+import { sendProject } from "../../redux/projects-reducer";
+import { connect } from "react-redux";
+import { ReactComponent as Closed } from "../../svg/closed.svg";
 
 let mapStateToProps = state => {
   return {
-    state: state.main,
-  };
-};
-let mapDispatchToProps = dispatch => {
-  return {
-    sendProject: (name,description) => {
-      dispatch(sendProjectCreator(name,description));
-    }
+    state: state.main
   };
 };
 
 function ModalAddProject(props) {
-
   const [nameProject, setNameProject] = useState("");
   const [descriptionProject, setDescriptionProject] = useState("");
   const handleProjectNameChange = useCallback(
@@ -32,8 +24,8 @@ function ModalAddProject(props) {
     []
   );
   const saveNewProjectClick = () => {
-    props.sendProject(nameProject,descriptionProject);
-    props.setActive(false)
+    props.sendProject(nameProject, descriptionProject);
+    props.setActive(false);
   };
 
   return (
@@ -43,7 +35,10 @@ function ModalAddProject(props) {
         onClick={() => props.setActive(false)}
       >
         <div className="modal-project" onClick={e => e.stopPropagation()}>
-          <div className="modal-project__title">Создание проекта</div>
+          <div className="modal-project__header">
+            <div className="modal-project__title">Создание проекта</div>
+            <Closed onClick={() => props.setActive(false)} />
+          </div>
 
           <div>Название</div>
           <input
@@ -60,28 +55,23 @@ function ModalAddProject(props) {
             value={descriptionProject}
           />
           <div className="modal-project__button">
-            {(nameProject && descriptionProject) ? (
+            {nameProject ? (
               <div onClick={saveNewProjectClick}>
-                <Button text="Добавить" type="add-task" color="blue" /></div>
+                <Button text="Добавить" type="add-task" color="blue" />
+              </div>
             ) : (
               <Button
                 text="Добавить"
                 type="add-task"
                 color="blue"
                 noActive={true}
-              />)
-            }
+              />
+            )}
           </div>
-
-
         </div>
       </div>
     </div>
   );
 }
-const AddProject = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ModalAddProject);
 
-export default AddProject;
+export default connect(mapStateToProps, { sendProject })(ModalAddProject);

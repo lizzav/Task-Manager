@@ -2,6 +2,7 @@ import React from "react";
 import "./ModalProfile.scss";
 
 import { ReactComponent as Closed } from "../../svg/closed.svg";
+import { NavLink } from "react-router-dom";
 
 function ModalProfile({ active, setActive }) {
   return (
@@ -21,16 +22,23 @@ function ModalProfile({ active, setActive }) {
 
           <div className="modal-profile-content__info">
             <div className="modal-profile-content__info-img">A</div>
-            <div className="modal-profile-content__info-item">
+            <NavLink
+              to="/personal"
+              className="modal-profile-content__info-item"
+            >
               <div>Имя Фамилия</div>
               <div className="modal-profile-content__info-item__email">
                 pochta@gmail.com
               </div>
-            </div>
+            </NavLink>
           </div>
           <div className="modal-profile-content__menu">
-            <div className="modal-profile-content__item">Профиль</div>
-            <div className="modal-profile-content__item">Настройки</div>
+            <NavLink to="/personal" className="modal-profile-content__item">
+              Профиль
+            </NavLink>
+            <NavLink to="/settings" className="modal-profile-content__item">
+              Настройки
+            </NavLink>
 
             <div className="modal-profile-content__item">Выход</div>
           </div>

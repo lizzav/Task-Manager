@@ -78,20 +78,6 @@
     border-radius: 15px;
     background-color: #d1d5ff;
 
-    &-item {
-      height: 30px;
-      width: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: $orange;
-      border-radius: 50%;
-      font-weight: 500;
-      font-size: 25px;
-      color: #ffffff;
-      margin-right: 5px;
-    }
-
     &-add {
       height: 30px;
       width: 30px;
@@ -99,7 +85,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-right: 5px;
+      margin: 0 5px;
       cursor: pointer;
 
       &:hover {
@@ -283,22 +269,6 @@
         &__users {
           display: flex;
           flex-direction: row;
-
-          &-item {
-            width: 30px;
-            height: 30px;
-            background: $green;
-            border-radius: 50%;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            margin-right: 5px;
-            text-transform: capitalize;
-          }
         }
       }
     }
@@ -392,6 +362,7 @@
     background-color: #ffffff;
     border: 2px solid transparent;
     box-sizing: border-box;
+
     border-radius: 15px;
     min-height: 50px;
     max-height: 50px;
@@ -412,7 +383,7 @@
 input {
   font-family: "Jost", sans-serif;
 }
-textarea{
+textarea {
   font-family: "Jost", sans-serif;
 }
 

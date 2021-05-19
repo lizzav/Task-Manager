@@ -1,0 +1,36 @@
+@import "src/color";
+.user {
+  &-icon {
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $orange;
+    border-radius: 50%;
+    font-weight: 500;
+    font-size: 25px;
+    color: #ffffff;
+    margin-left: 5px;
+  }
+  &-class {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+  }
+
+  &-name__size-bold {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 100%;
+  }
+}
+.more-user {
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 100%;
+  margin: auto;
+  margin-left: 5px;
+}
