@@ -21,6 +21,7 @@
     &__projects {
       display: flex;
       justify-content: flex-start;
+      overflow: auto;
     }
     &__project {
       text-decoration: none;

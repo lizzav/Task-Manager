@@ -9,10 +9,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
+z-index: 5;
   &__content {
-    min-height: 689px;
+    min-height: 111px;
+    height: 689px;
     width: 884px;
+    max-height: 95%;
     background-color: #ffffff;
     opacity: 1;
     border-radius: 15px;
@@ -29,10 +31,11 @@
       width: 23px;
       margin-left: 10px;
       cursor: pointer;
-& svg{ padding: 1px;
-  height: 15px;
-  width: 15px;
-}
+      & svg {
+        padding: 1px;
+        height: 15px;
+        width: 15px;
+      }
     }
     &__header {
       min-height: 50px;
@@ -42,17 +45,16 @@
         align-items: center;
         min-height: 33px;
         max-height: 33px;
-      &-txt{
-        display: flex;
-        align-items: center;
-      }
+        &-txt {
+          display: flex;
+          align-items: center;
+        }
         &__edit {
-
           min-height: 33px;
           max-height: 33px;
           border: none;
           outline: none;
-min-width: 760px;
+          min-width: 760px;
           max-width: 760px;
           font-weight: normal;
           font-size: 25px;
@@ -67,16 +69,16 @@ min-width: 760px;
           margin-left: -10px;
         }
       }
-&-sub{
-  display: flex;
-  align-items: center;
-}
+      &-sub {
+        display: flex;
+        align-items: center;
+      }
       &-list {
         font-size: 15px;
         line-height: 70.5%;
         color: #c0c0c0;
       }
-      &-delete{
+      &-delete {
         cursor: pointer;
         margin-left: 15px;
         display: flex;
@@ -86,11 +88,11 @@ min-width: 760px;
         height: 16px;
         width: 67px;
         border-radius: 15px;
-        background-color:#D1D5FF;
+        background-color: #d1d5ff;
         font-style: normal;
         font-weight: 300;
         font-size: 14px;
-        line-height: 100%;;
+        line-height: 100%;
       }
     }
 
@@ -99,15 +101,14 @@ min-width: 760px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-&-header{
-  display: flex;
-  align-items: center;
-  & button{
-    width: 106px;
-    margin-left: 15px;
-  }
-
-}
+      &-header {
+        display: flex;
+        align-items: center;
+        & button {
+          width: 106px;
+          margin-left: 15px;
+        }
+      }
       &-input {
         margin-right: 75px;
         resize: none;
@@ -126,8 +127,6 @@ min-width: 760px;
           color: $header;
         }
         &:disabled {
-
-
         }
       }
     }
@@ -170,12 +169,11 @@ min-width: 760px;
       flex-direction: column;
       min-height: 63px;
       background-color: #00ee51;
-      &-title{
+      &-title {
         display: flex;
       }
-      &-container{
+      &-container {
         display: flex;
-
       }
     }
 
@@ -204,4 +202,3 @@ min-width: 760px;
     }
   }
 }
-

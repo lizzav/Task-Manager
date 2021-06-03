@@ -117,7 +117,7 @@ function TasksInProjectPage(props) {
   if (!project[0]) return <Redirect to={"/error"} />;
   return (
     <div>
-      <Header />
+      <Header inproject/>
       <div>
         <div className="header__project_list">
           <div className="header__project_list__title">

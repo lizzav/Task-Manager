@@ -1,8 +1,8 @@
 @import "src/color";
 
 .header {
-  background-color: $header;
-  height: 50px;
+  background-color: #ffffff;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -10,17 +10,15 @@
   width: 100%;
   top: 0;
   color: #000000;
-  min-width: 530px;
   z-index: 2;
   &__title {
     text-decoration: none;
     color: black;
-    margin-left: 5px;
     font-style: normal;
-    font-weight: 500;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
     font-size: 25px;
-    line-height: 30px;
-    letter-spacing: 0.105em;
+    line-height: 16px;
   }
 
   &__main {

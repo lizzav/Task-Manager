@@ -4,7 +4,7 @@ import "./ModalMenu.scss";
 import { ReactComponent as Closed } from "../../svg/closed.svg";
 import { NavLink } from "react-router-dom";
 
-function ModalMenu({ active, setActive }) {
+function ModalMenu({ inproject, active, setActive }) {
   return (
     <div>
       <div className="modal-menu" onClick={() => setActive(false)}>
@@ -35,11 +35,12 @@ function ModalMenu({ active, setActive }) {
               Настройки
             </NavLink>
           </div>
-
-          <div className="modal-menu-content__delete">
-            <div className="modal-menu-content__item">Покинуть проект</div>
-            <div className="modal-menu-content__item">Удалить проект</div>
-          </div>
+          {inproject && (
+            <div className="modal-menu-content__delete">
+              <div className="modal-menu-content__item">Покинуть проект</div>
+              <div className="modal-menu-content__item">Удалить проект</div>
+            </div>
+          )}
         </div>
       </div>
     </div>

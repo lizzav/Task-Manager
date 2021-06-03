@@ -9,6 +9,7 @@ const UPDATE_LIST = "UPDATE_LIST";
 const ADD_LIST = "ADD_LIST";
 const UPDATE_STATUS_TASK = "UPDATE_STATUS_TASK";
 const DELETE_TASK = "DELETE_TASK";
+const UPDATE_NAME_TAG = "UPDATE_NAME_TAG";
 
 const initialState = {
   projects: [
@@ -50,7 +51,7 @@ const initialState = {
       description: "description",
       author: [1],
       users: [1, 2, 3, 4, 5, 49, 56],
-      tags: [1, 4, 4],
+      tags: [1, 2, 3, 4, 5, 6, 7, 8],
       file: [1, 23]
     },
 
@@ -87,7 +88,12 @@ const initialState = {
   tags: [
     { id: 1, name: "tag1", color: 1 },
     { id: 2, name: "tag2", color: 3 },
-    { id: 4, name: "tag3", color: 4 }
+    { id: 3, name: "tag3", color: 4 },
+    { id: 4, name: "tag4", color: 4 },
+    { id: 5, name: "tag5", color: 4 },
+    { id: 6, name: "tag6", color: 4 },
+    { id: 7, name: "tag7", color: 4 },
+    { id: 8, name: "tag8fjkejdkedjkejdekldkle denekndkm d", color: 4 }
   ],
   color: [
     { id: 1, name: "green" },
@@ -108,12 +114,7 @@ const initialState = {
     { id: 8, name: "обновил(а) название списка на доске" },
     { id: 9, name: "копировал(а) список на доске" }
   ],
-  newAction: [
-    { id: 1, type: 1, users: 1, project: 1 },
-    { id: 3, type: 4, users: 3, project: 2 },
-    { id: 4, type: 7, users: 1, project: 1 },
-    { id: 5, type: 1, users: 1, project: 2 }
-  ]
+  newAction: []
 };
 const indx = (state, id) => {
   return state.findIndex(el => el.id === parseInt(id));
@@ -375,6 +376,20 @@ const projectReducer = (state = initialState, action) => {
       };
     }
 
+    case UPDATE_NAME_TAG: {
+      const idx = indx(state.tags, action.tagId);
+      const oldItem = state.tags[idx];
+      const newItem = { ...oldItem, name: action.name };
+      return {
+        ...state,
+        tags: [
+          ...state.tasks.slice(0, idx),
+          newItem,
+          ...state.tasks.slice(idx + 1)
+        ]
+      };
+    }
+
     default:
       return state;
   }
@@ -437,5 +452,9 @@ export const deleteTask = taskId => ({
   type: DELETE_TASK,
   taskId: taskId
 });
-
+export const updateNameTag = (tagId, name) => ({
+  type: UPDATE_NAME_TAG,
+  tagId,
+  name
+});
 export default projectReducer;

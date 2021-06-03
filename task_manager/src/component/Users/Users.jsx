@@ -17,13 +17,15 @@ function Users(props) {
               user =>
                 user.id === usersId && (
                   <div key={user.id} className="user-class">
-                    <div className="user-icon">
-                      {user.name && user.name.substring(0, 1)}
-                    </div>
+                    {!props.noIcon && (
+                      <div className="user-icon">
+                        {user.name && user.name.substring(0, 1)}
+                      </div>
+                    )}
 
                     {props.userName && (
                       <div className={`user-name__size-${props.size}`}>
-                        &ensp;{user.name}&ensp;
+                        {user.name}&ensp;
                       </div>
                     )}
                   </div>

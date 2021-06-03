@@ -49,7 +49,7 @@ function LoginPage() {
               onChange={handlePasswordChange}
             />
 
-            <Button text="Войти" type="login" color="blue" />
+<div className={"login-form__form__button"}><Button text="Войти" type="login" color="blue" /></div>
           </div>
           <div className="login-form__link">
             <div className="login-form__link__txt forgot">Забыли пароль?</div>

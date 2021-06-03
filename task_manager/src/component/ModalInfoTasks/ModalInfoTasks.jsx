@@ -3,6 +3,7 @@ import "./ModalInfoTasks.scss";
 import { ReactComponent as Edit } from "../../svg/edit.svg";
 import Button from "../Button";
 import Users from "../Users/Users";
+import ModalComponent from "../ModalComponent/ModalComponent";
 
 function ModalInfoTasks({
   active,
@@ -17,9 +18,10 @@ function ModalInfoTasks({
   const [editDescription, setEditDescription] = useState(false);
   const [editTitleTask, setEditTitleTask] = useState(false);
   const [editTitleTaskValue, setEditTitleTaskValue] = useState(false);
-
+  const [editNameTags, setEditNameTags] = useState(false);
+  const [visibleAddTags, setVisibleAddTags] = useState(false);
   const description = () => {
-    return active.description ? active.description : false;
+    return active.description ? active.description : "";
   };
   const [editDescriptionValue, setEditDescriptionValue] = useState(description);
   const handleDescriptionValueChange = useCallback(
@@ -133,7 +135,7 @@ function ModalInfoTasks({
             <div className="task-info__content__tags">
               <div className="task-info__content__tags-title">
                 <div>Метки</div>
-                <div className="task-info__content-edit">
+                <div className="task-info__content-edit" onClick={()=> setVisibleAddTags(true)}>
                   <Edit />
                 </div>
               </div>
@@ -157,6 +159,26 @@ function ModalInfoTasks({
                     ))}
                 </div>
               )}
+              {visibleAddTags && (
+              <ModalComponent
+                addTags
+                editNameTags={editNameTags}
+                setEditNameTags={setEditNameTags}
+                tag={active.tags}
+                active={visibleAddTags}
+                setActive={setVisibleAddTags}
+              />
+            )}
+            {editNameTags && (
+              <ModalComponent
+                updateTags
+                id={editNameTags}
+                active={editNameTags}
+                setActive={setEditNameTags}
+                setOldForm={setVisibleAddTags}
+                oldForm={visibleAddTags}
+              />
+            )}
             </div>
             <div className="task-info__content__users">
               <div className="task-info__content__users-title">
@@ -185,6 +207,7 @@ function ModalInfoTasks({
               )}
             </div>
           </div>
+
         </div>
       )}
     </div>
