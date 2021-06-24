@@ -1,37 +1,23 @@
 @import "src/color";
 .user {
   &-icon {
-    height: 30px;
-    width: 30px;
+    height: 32px;
+    width: 32px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: $orange;
+    background-color: $light-blue;
     border-radius: 50%;
-    font-weight: 500;
-    font-size: 25px;
-    color: #ffffff;
-    margin-left: 5px;
+    & svg {
+      margin-top: 5px;
+    }
+    &-txt {
+      color: white;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 21px;
+      text-transform: capitalize;
+    }
   }
-  &-class {
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-  }
-
-  &-name__size-bold {
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 100%;
-    padding-left: 5px;
-  }
-}
-.more-user {
-  font-weight: normal;
-  font-size: 20px;
-  line-height: 100%;
-  margin: auto;
-  margin-left: 5px;
 }

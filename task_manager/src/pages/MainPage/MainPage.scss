@@ -1,94 +1,97 @@
 @import "src/color";
+.project__title {
+  display: flex;
+  justify-content: space-between;
+  &-txt {
+    display: flex;
+  }
+}
 .main-page {
   width: 100%;
   display: flex;
-  margin-top: 110px;
   flex-direction: column;
+
   &__content {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: 70px 85px;
-    min-height: 500px;
+    margin: 80px 135px;
 
     &-title {
-      font-weight: 600;
-      font-size: 30px;
-      line-height: 43px;
-      letter-spacing: 0.1em;
-      margin-bottom: 30px;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 23px;
+      margin-bottom: 24px;
     }
+
     &__projects {
-      display: flex;
-      justify-content: flex-start;
-      overflow: auto;
-    }
-    &__project {
-      text-decoration: none;
-      color: black;
-      height: 220px;
-      background-color: #ffffff;
-      border-radius: 15px;
-      min-width: 270px;
-      margin-bottom: 70px;
-      box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+      width: 100%;
       display: flex;
       justify-content: space-between;
+
+      flex-wrap: wrap;
+    }
+
+    &__project {
+      justify-content: space-between;
+      text-decoration: none;
+      color: black;
+      min-height: 110px;
+      background-color: #ffffff;
+      //min-width: 164px;
+      margin-bottom: 24px;
+      box-shadow: 0px 0px 15px rgba(2, 57, 164, 0.05);
+      border-radius: 10px;
+      display: flex;
       flex-direction: column;
       box-sizing: border-box;
-      padding: 15px;
-      margin-right: 30px;
-
+      flex-grow: 1;
+      flex-shrink: 1;
+      flex-basis: 0;
+      margin-right: 15px;
+      padding: 16px 24px;
       &-title {
-        font-weight: 600;
-        font-size: 25px;
-        line-height: 100%;
         display: flex;
         align-items: center;
-        &-svg {
-          margin-right: 10px;
-          border-radius: 15px;
-          width: 50px;
-          height: 50px;
-          background-color: #2846af;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          & svg {
-            width: 22px;
-            height: 22px;
-          }
-        }
-      }
-      &-item {
-        display: flex;
-        align-items: center;
-        font-weight: 500;
-        font-size: 20px;
-        line-height: 100%;
-      }
-    }
-
-    &__action {
-      &-item {
-        height: 65px;
-        margin-bottom: 15px;
-        background-color: #ffffff;
-        border-radius: 15px;
-        max-width: 60%;
-        min-width: 650px;
-        display: flex;
-        align-items: center;
-        box-sizing: border-box;
-        padding-left: 15px;
         font-weight: normal;
-        font-size: 20px;
-        line-height: 20px;
-        &__link {
-          text-decoration: none;
-          color: black;
+        font-size: 14px;
+        line-height: 160%;
+      }
+      &-item {
+        display: flex;
+        margin-left: 15px;
+        &-user {
+          display: flex;
+          margin-left: -15px;
+          background-color: white;
+          border-radius: 50px;
+          height: 35px;
+          width: 35px;
+          justify-content: center;
+          align-items: center;
         }
       }
     }
+  }
+}
+.status {
+  &-active {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    color: $Confirm;
+  }
+  &-stop {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    color: $Error;
+  }
+  &-complete {
+    font-weight: 500;
+
+    font-size: 12px;
+    line-height: 14px;
+    color: $Grey;
   }
 }

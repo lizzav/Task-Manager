@@ -1,20 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import "./MainPage.scss";
 import Menu from "../../component/Menu";
-import { NavLink } from "react-router-dom";
-import { ReactComponent as Star } from "../../svg/Star.svg";
+import { NavLink, Redirect } from "react-router-dom";
 import Header from "../../component/Header";
 import { connect } from "react-redux";
 import Users from "../../component/Users";
+import Button from "../../component/Button";
+import ModalAddProject from "../../component/ModalAddProject";
 
 let mapStateToProps = state => {
   return {
     state: state.main,
-    users: state.users.users
+    users: state.users.users,
+    user: state.users.profile.id
   };
 };
 
 function MainPage(props) {
+  const [visibleAddProject, setVisibleAddProject] = useState(false);
+  if (!props.user) return <Redirect to={"/login"} />;
   return (
     <div className="main-page">
       <div>
@@ -24,76 +28,64 @@ function MainPage(props) {
 
       <div>
         <div className="main-page__content">
-          <div className="main-page__content-title">Последние проекты</div>
+          <div className="main-page__content-title project__title">
+            <div>Последние проекты</div>
+            <div onClick={() => setVisibleAddProject(true)}>
+              {" "}
+              <Button text="Добавить проект" type="add-task" color="blue" />
+            </div>
+          </div>
           <div className="main-page__content__projects">
-            {props.state.projects.map(project => (
+            {props.state.projects.slice(0, 4).map(project => (
               <NavLink
                 to={`/projects/${project.id}`}
                 className="main-page__content__project"
                 key={project.id}
               >
                 <div className="main-page__content__project-title">
-                  <div className="main-page__content__project-title-svg">
-                    {project.isFavorite === true && <Star />}
-                  </div>
                   {project.name}
                 </div>
+                {project.status === 1 && (
+                  <div className="status-active">Активный</div>
+                )}
+                {project.status === 2 && (
+                  <div className="status-stop">Приостановлен</div>
+                )}
+                {project.status === 3 && (
+                  <div className="status-complete">Завершен</div>
+                )}
                 <div className="main-page__content__project-item">
-                  Описание:
-                  {project.description && project.description.length > 15
-                    ? `${project.description.substring(0, 12)}...`
-                    : project.description}
-                </div>
-                <div className="main-page__content__project-item">
-                  <div>Руководитель&ensp;</div>
-                  <Users userIdArray={project.author} count={3} />
-                </div>
-                <div className="main-page__content__project-item">
-                  <div>Участники&ensp;</div>
-
-                  <Users userIdArray={project.users} count={3} more={3} />
+                  {project.users &&
+                    project.users.map(usersId => (
+                      <div key={`${Math.random()}${usersId}`}>
+                        {props.users.map(
+                          user =>
+                            user.id === usersId && (
+                              <div
+                                key={user.id}
+                                className="main-page__content__project-item-user "
+                              >
+                                <Users
+                                  userIdArray={user.name.substring(0, 1)}
+                                />
+                              </div>
+                            )
+                        )}
+                      </div>
+                    ))}
                 </div>
               </NavLink>
             ))}
           </div>
-          <div className="main-page__content-title">Последние действия</div>
-          <div className="main-page__content__action">
-            {console.log(props.state.newAction)}
-            {props.state.newAction &&
-              props.state.newAction.map(action => (
-                <div
-                  className="main-page__content__action-item"
-                  key={action.id}
-                >
-                  {console.log(action, "action")}
-                  <Users
-                    userIdArray={[action.users]}
-                    count={1}
-                    userName={true}
-                  />
-                  {props.state.actions.map(
-                    act =>
-                      act.id === action.type && (
-                        <div key={act.id}>{act.name} &nbsp;</div>
-                      )
-                  )}
-                  {props.state.projects.map(
-                    projects =>
-                      projects.id === action.project && (
-                        <NavLink
-                          className="main-page__content__action-item__link"
-                          to={`/projects/${projects.id}`}
-                          key={projects.id}
-                        >
-                          <u>{projects.name}</u>
-                        </NavLink>
-                      )
-                  )}
-                </div>
-              ))}
-          </div>
         </div>
       </div>
+      {visibleAddProject && (
+        <ModalAddProject
+          active={visibleAddProject}
+          setActive={setVisibleAddProject}
+          project
+        />
+      )}
     </div>
   );
 }

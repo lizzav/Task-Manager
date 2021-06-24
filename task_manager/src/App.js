@@ -8,10 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import { connect } from "react-redux";
 import TasksInProjectPage from "./pages/TasksInProjectPage";
 import ProjectPage from "./pages/ProjectPage";
-import PersonalPage from "./pages/PersonalPage";
 import SettingsPage from "./pages/SettingsPage";
-import PrivacyPage from "./pages/PrivacyPage";
-import UseConditionsPage from "./pages/UseConditionsPage";
 import Notfound from "./pages/NotfoundPage";
 
 let mapStateToProps = state => {
@@ -33,10 +30,7 @@ function App(props) {
       <Route path="/" exact render={() => <MainPage />} />
       <Route path="/login" exact component={LoginPage} />
       <Route path="/registration" exact component={RegistrationPage} />
-      <Route path="/personal" exact component={PersonalPage} />
       <Route path="/settings" exact component={SettingsPage} />
-      <Route path="/privacy" exact component={PrivacyPage} />
-      <Route path="/useconditions" exact component={UseConditionsPage} />
       <Route  component={Notfound} />
         </Switch>
     </div>

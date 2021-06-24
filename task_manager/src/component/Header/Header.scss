@@ -9,107 +9,28 @@
   position: fixed;
   width: 100%;
   top: 0;
-  color: #000000;
   z-index: 2;
+  padding: 0 25px;
+  box-sizing: border-box;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+  &-logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
   &__title {
     text-decoration: none;
     color: black;
     font-style: normal;
     font-weight: bold;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 25px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
     line-height: 16px;
-  }
+    margin-left: 50px;
 
-  &__main {
-    display: flex;
-    width: 520px;
-    justify-content: space-around;
-
-    &__projects {
-      display: flex;
-      min-height: 30px;
-      min-width: 185px;
-      background: #abb4ff;
-      border-radius: 15px;
-      font-size: 21px;
-      line-height: 77%;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: #000000;
-      flex: none;
-      order: 0;
-      flex-grow: 0;
-
-      &:hover {
-        background-color: $main;
-      }
-    }
-
-    &__search {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      width: 154px;
-      border-radius: 15px;
-      background: $search;
-      height: 26px;
-      border: 2px solid transparent;
-
-      &:hover {
-        border: 2px solid #0338ef;
-      }
-
-      &-button {
-        padding: 0;
-        cursor: pointer;
-        width: 20px;
-        height: 20px;
-        margin-right: 10px;
-        border: none;
-        outline: none;
-        background: transparent;
-      }
-
-      &-input {
-        border: none;
-        outline: none;
-        background: transparent;
-        width: 114px;
-        margin-left: 10px;
-        font-weight: 300;
-        font-size: 25px;
-        line-height: 20px;
-
-        &:focus {
-          &::placeholder {
-            color: transparent;
-          }
-        }
-
-        &::placeholder {
-          color: $header;
-        }
-      }
-    }
-
-    &__icon {
-      height: 30px;
-      width: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-
-      &:hover {
-        background-color: $main;
-        border-radius: 5px;
-      }
-    }
-
-    &__profile {
-      cursor: pointer;
+    & svg {
+      width: 16px;
+      height: 16px;
     }
   }
 }

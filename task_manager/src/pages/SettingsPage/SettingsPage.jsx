@@ -6,22 +6,26 @@ import Header from "../../component/Header";
 import { connect } from "react-redux";
 import Button from "../../component/Button";
 import { updatePassword, updateUser } from "../../redux/profile-reducer";
+import { Redirect } from "react-router-dom";
 
 let mapStateToProps = state => {
   return {
-    state: state.users.profile
+    state: state.users.users,
+    user: state.users.profile.id
   };
 };
 
 function SettingsPage(props) {
+  const userData = props.state.filter(user => user.id === props.user)[0];
+  console.log(props.state.filter(user => user.id === props.user));
   const getUserData = type => {
     switch (type) {
       case "name":
-        return props.state.name ? props.state.name : false;
+        return userData && userData.name ? userData.name : false;
       case "email":
-        return props.state.email ? props.state.email : false;
+        return userData && userData.email ? userData.email : false;
       case "about":
-        return props.state.about ? props.state.about : false;
+        return userData && userData.about ? userData.about : false;
       default:
         return "";
     }
@@ -52,35 +56,21 @@ function SettingsPage(props) {
     event => setPasswordOld(event.target.value),
     []
   );
+
+  if (!props.user) return <Redirect to={"/login"} />;
   return (
-    <div className="settings-page">
-      {console.log(props.state)}
+    <div className="main-page">
       <div>
         <Header />
         <Menu />
       </div>
-      <div className="settings-page__content">
-        <div className="settings-page__header">
-          <div className="settings-page__header-icon">
-            {props.state.name.substring(0, 1)}
-          </div>
-          <div className="settings-page__header__sub">
-            <div className="settings-page__header__sub-name">
-              {props.state.name}
-            </div>
-            <div className="settings-page__header__sub-email">
-              {props.state.email}
-            </div>
-          </div>
-        </div>
-        <div className="settings-page__settings">
-          <div className="settings-page__settings__info settings-page__container">
-            <div className="settings-page__container-title">
-              Основная информация
-            </div>
+      <div className="main-page__content">
+        <div className="1">
+          <div className=" settings-page__container">
+            <div className="main-page__content-title">Основная информация</div>
             <div className="settings-page__container-txt">Имя пользователя</div>
             <input
-              className="settings-page__container-input"
+              className="modal-project__input settings-page__container-input"
               value={name}
               onChange={handleChangeName}
             />
@@ -88,7 +78,7 @@ function SettingsPage(props) {
               Адрес электронной почты
             </div>
             <input
-              className="settings-page__container-input"
+              className="modal-project__input settings-page__container-input"
               type="email"
               value={email}
               onChange={handleChangeEmail}
@@ -96,7 +86,7 @@ function SettingsPage(props) {
 
             <div className="settings-page__container-txt">О себе</div>
             <textarea
-              className="settings-page__container-input settings-page__container-input-about"
+              className="modal-project__input settings-page__container-input"
               value={about}
               onChange={handleChangeAbout}
             />
@@ -106,7 +96,7 @@ function SettingsPage(props) {
             getUserData("about") !== about ? (
               <div
                 className="settings-page__container-button"
-                onClick={() => props.updateUser(name, email, about)}
+                onClick={() => props.updateUser(props.user, name, email, about)}
               >
                 <Button text="Сохранить" type="add-task" color="blue" />
               </div>
@@ -121,18 +111,18 @@ function SettingsPage(props) {
               </div>
             )}
           </div>
-          <div className="settings-page__container settings-page__settings__password ">
-            <div className="settings-page__container-title">Смена пароля</div>
+          <div className="settings-page__container">
+            <div className="main-page__content-title">Смена пароля</div>
             <div className="settings-page__container-txt">Текущий пароль</div>
             <input
-              className="settings-page__container-input"
+              className="modal-project__input settings-page__container-input"
               value={passwordOld}
               type="password"
               onChange={handleChangeOldPassword}
             />
             <div className="settings-page__container-txt">Новый пароль</div>
             <input
-              className="settings-page__container-input"
+              className="modal-project__input settings-page__container-input"
               type="password"
               value={passwordNew}
               onChange={handleChangeNewPassword}
@@ -140,7 +130,9 @@ function SettingsPage(props) {
             {passwordNew && passwordOld ? (
               <div
                 className="settings-page__container-button"
-                onClick={() => props.updatePassword(passwordOld, passwordNew)}
+                onClick={() =>
+                  props.updatePassword(props.user, passwordOld, passwordNew)
+                }
               >
                 <Button text="Сохранить" type="add-task" color="blue" />
               </div>

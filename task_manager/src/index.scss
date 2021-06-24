@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
 @import "src/color";
 html {
   ::-webkit-scrollbar-button {
@@ -36,10 +36,10 @@ body {
   //min-width: 100vh;
   margin: 0;
   padding: 0;
-  font-family: "Jost", sans-serif;
+  font-family: "Ubuntu", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #f4f5ff;
+  background: $ultra-lightblue;
 }
 
 .bg-close {

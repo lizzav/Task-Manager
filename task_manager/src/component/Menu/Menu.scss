@@ -1,54 +1,117 @@
 @import "src/color";
 .menu {
-  height: 60px;
+  height: 100%;
   display: flex;
-  min-width: 1100px;
   position: fixed;
-  top: 50px;
-  justify-content: space-between;
-  background: #c7cdff;
-  width: 100%;
+  top: 56px;
+  padding-top: 16px;
+  left: 0;
+  justify-content: flex-start;
+  background: $white;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-  &__content {
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 100%;
-    display: flex;
-    justify-content: space-around;
-    min-width: 890px;
-    align-items: flex-end;
-    padding: 0 80px;
-    box-sizing: border-box;
-    &__item {
-      padding: 16px 30px 10px;
+  flex-direction: column;
+  width: 65px;
+  &:hover {
+    width: 182px;
+
+    .menu__content {
+      padding-left: 24px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: flex-start;
       text-decoration: none;
-      color: black;
-      &-active {
-        background: $light-main;
-        border-radius: 15px 15px 0 0;
-        padding: 16px 30px 16px;
-        margin-bottom: -6px;
+      &__txt {
+        margin-left: 8px;
+        display: block;
+        text-decoration: none;
+        color: $Grey;
+      }
+      &:hover {
+        background-color: #e7edf4 !important;
       }
     }
   }
-  &-add-new-project {
-    cursor: pointer;
-    margin-top: 9px;
-    margin-right: 20px;
-    justify-content: center;
-    box-sizing: border-box;
-    border-radius: 15px;
-    font-weight: 500;
-    font-size: 30px;
-    line-height: 43px;
+  &__content {
+    &-img {
+      display: flex;
+      align-items: center;
+      & svg {
+        width: 16px;
+        height: 16px;
+        & path {
+          fill: $Grey;
+        }
+      }
+    }
     display: flex;
     align-items: center;
-    min-width: 183px;
-    background-color: #f5f6ff;
-    height: 44px;
-    color: #a3acff;
-    & path {
-      fill: #a3acff;
+    justify-content: center;
+    height: 48px;
+    &__txt {
+      display: none;
+    }
+
+    &-active {
+      background-color: #e7edf4;
+
+      .menu__content {
+        &-img {
+          display: flex;
+          align-items: center;
+          & svg {
+            width: 16px;
+            height: 16px;
+            & path {
+              fill: $accent-blue;
+            }
+          }
+        }
+        &__txt {
+          color: $accent-blue !important;
+        }
+      }
     }
   }
+  //&__content {
+  //  font-weight: 600;
+  //  font-size: 20px;
+  //  line-height: 100%;
+  //  display: flex;
+  //  justify-content: space-around;
+  //  min-width: 890px;
+  //  align-items: flex-end;
+  //  padding: 0 80px;
+  //  box-sizing: border-box;
+  //  &__item {
+  //    padding: 16px 30px 10px;
+  //    text-decoration: none;
+  //    color: black;
+  //    &-active {
+  //      background: $light-main;
+  //      border-radius: 15px 15px 0 0;
+  //      padding: 16px 30px 16px;
+  //      margin-bottom: -6px;
+  //    }
+  //  }
+  //}
+  //&-add-new-project {
+  //  cursor: pointer;
+  //  margin-top: 9px;
+  //  margin-right: 20px;
+  //  justify-content: center;
+  //  box-sizing: border-box;
+  //  border-radius: 15px;
+  //  font-weight: 500;
+  //  font-size: 30px;
+  //  line-height: 43px;
+  //  display: flex;
+  //  align-items: center;
+  //  min-width: 183px;
+  //  background-color: #f5f6ff;
+  //  height: 44px;
+  //  color: #a3acff;
+  //  & path {
+  //    fill: #a3acff;
+  //  }
+  //}
 }

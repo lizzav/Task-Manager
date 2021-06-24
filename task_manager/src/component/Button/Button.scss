@@ -1,7 +1,7 @@
 @import "src/color";
 
 .form-button {
-  font-family: "Jost", sans-serif;
+  font-family: "Ubuntu", sans-serif;
   border-radius: 15px;
   border: 2px solid transparent;
   text-align: center;
@@ -13,12 +13,12 @@
   box-sizing: border-box;
   font-style: normal;
   width: 100%;
-  font-size: 25px;
+  font-size: 14px;
   height: 100%;
 }
 
 .blue {
-  background: $button-blue;
+  background: $accent-blue;
   &:hover {
     border: 2px solid $accent-blue;
   }
@@ -30,7 +30,12 @@
     cursor: auto;
   }
 }
-
+.rad {
+  background: $Error;
+  &:hover {
+    border: 2px solid $Error;
+  }
+}
 .green {
   background-color: $green;
   &:hover {
@@ -55,9 +60,8 @@
 }
 
 .add-task {
-  font-weight: 500;
-  font-size: 25px;
-  line-height: 100%;
+  font-weight: normal;
+  font-size: 14px;
 }
 .add-description-task {
   font-weight: 500;

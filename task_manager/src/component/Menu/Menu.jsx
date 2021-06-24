@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import "./Menu.scss";
 
-import { ReactComponent as Add } from "../../svg/add.svg";
+import { ReactComponent as Home } from "../../svg/home.svg";
+import { ReactComponent as Project } from "../../svg/project.svg";
+import { ReactComponent as User } from "../../svg/user.svg";
+import { ReactComponent as Exit } from "../../svg/exit.svg";
 import { NavLink } from "react-router-dom";
 import ModalAddProject from "../ModalAddProject";
-
-function Menu() {
+import { connect } from "react-redux";
+import { logout } from "../../redux/profile-reducer";
+let mapStateToProps = state => {
+  return {};
+};
+function Menu(props) {
   const [visibleFormAddNewProject, setVisibleFormAddNewProject] = useState(
     false
   );
@@ -13,52 +20,51 @@ function Menu() {
   return (
     <div>
       <div className="menu">
-        <div className="menu__content">
-          <NavLink
-            to="/"
-            exact={true}
-            className="menu__content__item"
-            activeClassName="menu__content__item-active"
-          >
-            Главная
-          </NavLink>
-          <NavLink
-            to="/projects"
-            className="menu__content__item"
-            activeClassName="menu__content__item-active"
-          >
-            Проекты
-          </NavLink>
-          <NavLink
-            to="/personal"
-            className="menu__content__item"
-            activeClassName="menu__content__item-active"
-          >
-            Личный кабинет
-          </NavLink>
-          <NavLink
-            to="/settings"
-            className="menu__content__item"
-            activeClassName="menu__content__item-active"
-          >
-            Настройки
-          </NavLink>
-        </div>
-        <div
-          className="menu-add-new-project"
-          onClick={() => setVisibleFormAddNewProject(true)}
+        <NavLink
+          to="/"
+          exact={true}
+          className="menu__content"
+          activeClassName="menu__content-active"
         >
-          <Add /> Создать
+          <div className="menu__content-img">
+            <Home />{" "}
+          </div>
+          <div className="menu__content__txt">Главная</div>
+        </NavLink>
+        <NavLink
+          to="/projects"
+          className="menu__content"
+          activeClassName="menu__content-active"
+        >
+          <div className="menu__content-img">
+            <Project />
+          </div>
+
+          <div className="menu__content__txt">Проекты</div>
+        </NavLink>
+        <NavLink
+          to="/settings"
+          className="menu__content"
+          activeClassName="menu__content-active"
+        >
+          <div className="menu__content-img">
+            <User />
+          </div>
+
+          <div className="menu__content__txt">Личный кабинет</div>
+        </NavLink>
+        <div className="menu__content" onClick={() => props.logout()}>
+          <div className="menu__content-img">
+            <Exit />
+          </div>
+
+          <div className="menu__content__txt">Выйти</div>
         </div>
       </div>
-      {visibleFormAddNewProject && (
-        <ModalAddProject
-          active={visibleFormAddNewProject}
-          setActive={setVisibleFormAddNewProject}
-        />
-      )}
     </div>
   );
 }
 
-export default Menu;
+export default connect(mapStateToProps, {
+  logout
+})(Menu);

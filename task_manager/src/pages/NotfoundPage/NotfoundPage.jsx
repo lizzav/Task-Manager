@@ -2,9 +2,16 @@ import React from "react";
 
 import "./NotfoundPage.scss";
 import Header from "../../component/Header";
-import { NavLink } from "react-router-dom";
+import {NavLink, Redirect} from "react-router-dom";
+import {connect} from "react-redux";
 
-function Notfound() {
+let mapStateToProps = state => {
+  return {
+    user:state.users.profile.id
+  };
+};
+function Notfound(props) {
+  if (!props.user) return <Redirect to={"/login"} />;
   return (
     <div className="not-found">
       <Header />
@@ -17,4 +24,4 @@ function Notfound() {
   );
 }
 
-export default Notfound;
+export default connect(mapStateToProps)(Notfound);

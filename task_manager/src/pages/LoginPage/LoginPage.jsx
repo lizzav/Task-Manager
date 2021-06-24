@@ -4,8 +4,31 @@ import { ReactComponent as Vk } from "../../svg/Vk.svg";
 import { ReactComponent as Yandex } from "../../svg/yandex.svg";
 import "./LoginPage.scss";
 import Button from "../../component/Button";
+import { ReactComponent as Lists } from "../../svg/lists.svg";
+import { NavLink, Redirect } from "react-router-dom";
+import { ReactComponent as Logo } from "../../svg/t.svg";
+import Users from "../../component/Users/Users";
+import { login } from "../../redux/profile-reducer";
+import { connect } from "react-redux";
+import {
+  addList,
+  copyList,
+  deleteProject,
+  deleteTask,
+  isFavourite,
+  sendTask,
+  updateDescriptionTitle,
+  updateList,
+  updateStatusTask
+} from "../../redux/projects-reducer";
 
-function LoginPage() {
+let mapStateToProps = state => {
+  return {
+    user: state.users.profile.id
+  };
+};
+
+function LoginPage(props) {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
@@ -18,65 +41,57 @@ function LoginPage() {
     []
   );
 
-  const handleSubmit = useCallback(
-    async event => {
-      event.preventDefault();
-    },
-    [login, password]
-  );
-
+  const handleSubmit = () => {
+    props.login(login, password);
+  };
+  if (props.user) return <Redirect to={"/"} />;
   return (
-    <div className="login-page">
-      <div className="login-page__title">ToDo</div>
-      <div className="login-page__content">
-        <div className="login-page__content__title">Вход в ToDO</div>
-        <form className="login-form" onSubmit={handleSubmit}>
-          <div className="login-form__form">
-            <input
-              className="login-form__form__input"
-              placeholder={"Введите адрес электронной почты"}
-              name="login"
-              type="email"
-              value={login}
-              onChange={handleLoginChange}
-            />
-            <input
-              className="login-form__form__input"
-              name="password"
-              placeholder={"Введите пароль"}
-              type="password"
-              value={password}
-              onChange={handlePasswordChange}
-            />
+    <div className="main-page">
+      {" "}
+      {console.log(props.user)}
+      <div className="header">
+        <div className="header-logo">
+          <NavLink to="/" className="header__title">
+            <Logo />
+            odo
+          </NavLink>
+        </div>
+      </div>
+      <div className="main-page__content login-form__content">
+        <div className="main-page__content-title">Авторизация</div>
 
-<div className={"login-form__form__button"}><Button text="Войти" type="login" color="blue" /></div>
+        <div>
+          <input
+            className="modal-project__input login-form__content-input"
+            placeholder={"E-mail"}
+            name="email"
+            type="email"
+            value={login}
+            onChange={handleLoginChange}
+          />
+          <input
+            className="modal-project__input  login-form__content-input"
+            name="password"
+            placeholder={"Пароль"}
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+          />
+
+          <div
+            className="login-form__content-button"
+            onClick={() => handleSubmit()}
+          >
+            <Button text="Войти" type="add-task" color="blue" />
           </div>
-          <div className="login-form__link">
-            <div className="login-form__link__txt forgot">Забыли пароль?</div>
-
-            <div className="login-form__link__reg">
-              Войти через Google&nbsp;
-              <Google className="login-form__link__reg__img" />
-            </div>
-
-            <div className="login-form__link__reg">
-              Войти через Вконтакте&nbsp;
-              <Vk className="login-form__link__reg__img" />
-            </div>
-
-            <div className="login-form__link__reg">
-              Войти через Яндекс&nbsp;
-              <Yandex className="login-form__link__reg__img" />
-            </div>
-
-            <div className="login-form__link__txt reg">
-              Нет аккаунта? Регистрация
-            </div>
-          </div>
-        </form>
+        </div>
+        <div className="login-form__content-txt">
+          <div>Забыли пароль?</div>
+          <div>Регистрация</div>
+        </div>
       </div>
     </div>
   );
 }
 
-export default LoginPage;
+export default connect(mapStateToProps, { login })(LoginPage);

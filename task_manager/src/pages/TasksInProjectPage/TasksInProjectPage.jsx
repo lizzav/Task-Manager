@@ -9,29 +9,30 @@ import { ReactComponent as Closed } from "../../svg/closed.svg";
 import { useRouteMatch } from "react-router";
 
 import Button from "../../component/Button";
-import ModalInfoTasks from "../../component/ModalInfoTasks";
-import ModalAddStatus from "../../component/ModalAddStatus";
 import Header from "../../component/Header";
 import { connect } from "react-redux";
 import {
   addList,
   copyList,
-  deleteList,
   isFavourite,
   sendTask,
   updateDescriptionTitle,
   updateList,
-  updateTasksTitle,
   updateStatusTask,
-  deleteTask
+  deleteTask,
+  deleteProject
 } from "../../redux/projects-reducer";
 import Users from "../../component/Users/Users";
-import { Redirect } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
+import Menu from "../../component/Menu";
+import ModalAddTask from "../../component/ModalAddTask";
+import ModalAddProject from "../../component/ModalAddProject";
 
 let mapStateToProps = state => {
   return {
     state: state.main,
-    users: state.users.users
+    users: state.users.users,
+    user: state.users.profile.id
   };
 };
 
@@ -44,14 +45,12 @@ function TasksInProjectPage(props) {
     project => project.id === parseInt(params.id)
   );
 
-  const [statusEditValue, setStatusEditValue] = useState("");
   const [visibleAddTask, setVisibleAddTask] = useState(false);
   const [addTaskTitle, setAddTaskTitle] = useState("");
   const [visibleTasks, setVisibleTasks] = useState(false);
-  const [editStatus, setEditStatus] = useState(false);
-  const [visibleListsAction, setVisibleListsAction] = useState(false);
-  const [visibleAddStatus, setVisibleAddStatus] = useState(false);
   const [dropTask, setDropTask] = useState(false);
+  const [editProject, setEditProject] = useState(false);
+
   const handleAddTaskTitleChange = useCallback(
     event => setAddTaskTitle(event.target.value),
     []
@@ -63,40 +62,13 @@ function TasksInProjectPage(props) {
     setAddTaskTitle("");
     setVisibleAddTask(false);
   };
-  const addStatus = name => event => {
-    event.preventDefault();
-    props.addList(params.id, name);
-    setVisibleAddStatus(false);
-  };
   const openTasks = id => {
     const Task = listTasks.filter(item => item.id === id);
     setVisibleTasks(Task[0].id);
   };
-  const handleStatusChange = useCallback(
-    event => setStatusEditValue(event.target.value),
-    []
-  );
 
-  const onChangeStatus = id => event => {
-    event.preventDefault();
-    props.updateList(params.id, id, statusEditValue);
-    setEditStatus(false);
-    setStatusEditValue("");
-  };
-  const deleteList = id => {
-    props.deleteList(params.id, id);
-    setVisibleListsAction("");
-  };
-  const copyLists = id => {
-    props.copyList(params.id, id);
-
-    setVisibleListsAction("");
-  };
   const editDescriptionTask = (id, description) => {
     props.updateDescriptionTitle(id, description);
-  };
-  const editTitleTaskF = (id, name) => {
-    props.updateTasksTitle(id, name);
   };
   const deleteTask = id => {
     props.deleteTask(id);
@@ -110,40 +82,59 @@ function TasksInProjectPage(props) {
   };
   const dragDropHandler = (e, list) => {
     e.preventDefault();
-    console.log(list.id);
     props.updateStatusTask(dropTask, list.id);
     setDropTask(false);
   };
-  if (!project[0]) return <Redirect to={"/error"} />;
+  const deleteProj = () => {
+    props.deleteProject(project[0].id);
+    return <Redirect to={"/"} />;
+  };
+  if (!project[0]) return <Redirect to={"/"} />;
+  if (!props.user) return <Redirect to={"/login"} />;
   return (
-    <div>
-      <Header inproject/>
+    <div className="main-page">
       <div>
-        <div className="header__project_list">
-          <div className="header__project_list__title">
-            <div className="header__project_list__title-name">
-              {project[0].name}
+        <Header />
+        <Menu />
+      </div>
+      <div className="main-page__content">
+        <div className="main-page__content-title project__title">
+          <div className="project__title-txt">
+            Проект: {project[0].name}
+            <div onClick={() => setEditProject(true)}>
+              <Edit />
             </div>
-
-            <div
-              className={`header__project_list__title-svg-${project[0].isFavorite}`}
-              onClick={() => props.isFavourite(params.id)}
-            >
-              <Star />
+            <div onClick={() => deleteProj()}>
+              <Closed />
             </div>
           </div>
 
-          <div className="header__project_list__users">
-            Участники:
-            {console.log(project[0].users)}
-            <Users userIdArray={project[0].users} count={1000} />
-            <div className="header__project_list__users-add">
-              <Add />
-            </div>
+          <div onClick={() => setVisibleAddTask(true)}>
+            {" "}
+            <Button text="Добавить задачу" type="add-task" color="blue" />
           </div>
         </div>
+        <div className="project__users">
+          <div className="project__users-txt">Участники:</div>
+          {project[0].users &&
+            project[0].users.map(usersId => (
+              <div key={`${Math.random()}${usersId}`}>
+                {props.users.map(
+                  user =>
+                    user.id === usersId && (
+                      <div
+                        key={user.id}
+                        className="main-page__content__project-item-user"
+                      >
+                        <Users userIdArray={user.name.substring(0, 1)} />
+                      </div>
+                    )
+                )}
+              </div>
+            ))}
+        </div>
         <div className="lists">
-          {project[0].status.map(statusArr => (
+          {props.state.status.map(statusArr => (
             <div
               onDrop={e => dragDropHandler(e, statusArr)}
               onDragEnd={e => dragEndHandler(e)}
@@ -153,83 +144,9 @@ function TasksInProjectPage(props) {
               key={statusArr.id}
             >
               <div className="lists__list__header">
-                {editStatus === statusArr.id ? (
-                  <div>
-                    <div
-                      onClick={statusEditValue && onChangeStatus(statusArr.id)}
-                      className="bg-close"
-                    />
-                    <input
-                      className="lists__list__edit"
-                      onClick={e => e.stopPropagation()}
-                      onChange={handleStatusChange}
-                      autoComplete="off"
-                      placeholder="Название раздела"
-                      name="txt"
-                      type="text"
-                      value={statusEditValue}
-                    />
-                  </div>
-                ) : (
-                  <div
-                    className="lists__list-title"
-                    onClick={() =>
-                      setEditStatus(statusArr.id) ||
-                      setStatusEditValue(statusArr.name)
-                    }
-                  >
-                    {statusArr.name.length > 21
-                      ? `${statusArr.name.substring(0, 20)}...`
-                      : statusArr.name}
-                  </div>
-                )}
-                <Ellipsis onClick={() => setVisibleListsAction(statusArr.id)} />
+                <div className="lists__list-title">{statusArr.name}</div>
               </div>
-              {visibleListsAction === statusArr.id && (
-                <div>
-                  <div
-                    onClick={() => setVisibleListsAction(false)}
-                    className="bg-close"
-                  />
-                  <div
-                    className="modal-action-list"
-                    onClick={e => e.stopPropagation()}
-                  >
-                    <div
-                      className="modal-action-list__closed"
-                      onClick={() => setVisibleListsAction(false)}
-                    >
-                      <Closed />
-                    </div>
-                    <div className="modal-action-list__title">
-                      Действия со списком
-                    </div>
 
-                    <div
-                      className="modal-action-list__item"
-                      onClick={() => copyLists(statusArr.id)}
-                    >
-                      Копировать список
-                    </div>
-                    <div
-                      className="modal-action-list__item"
-                      onClick={() => deleteList(statusArr.id)}
-                    >
-                      Удалить список
-                    </div>
-                    <div
-                      className="modal-action-list__item"
-                      onClick={() =>
-                        setEditStatus(statusArr.id) ||
-                        setStatusEditValue(statusArr.name) ||
-                        setVisibleListsAction(false)
-                      }
-                    >
-                      Переименовать список
-                    </div>
-                  </div>
-                </div>
-              )}
               <div className="lists__list-tasks">
                 {listTasks
                   .filter(item => item.statusId === statusArr.id)
@@ -242,152 +159,124 @@ function TasksInProjectPage(props) {
                       key={taskOnList.id}
                     >
                       <div className="lists__list-tasks__task__title">
-                        <div>
-                          {taskOnList.name.length > 25
-                            ? `${taskOnList.name.substring(0, 25)}...`
-                            : taskOnList.name}
-                        </div>
-                        <div className="lists__list-tasks__task-edit">
-                          <Edit />
-                        </div>
+                        {taskOnList.name}
                       </div>
-                      {taskOnList.tags && (
-                        <div className="lists__list-tasks__task__tags">
-                          {taskOnList.tags.slice(0, 4).map(tagsId =>
-                            props.state.tags.map(
-                              tags =>
-                                tags.id === tagsId && (
-                                  <div
-                                    key={tags.id}
-                                    className="lists__list-tasks__task__tags-item"
-                                  >
-                                    {tags.name.length > 8
-                                      ? `${tags.name.substring(0, 5)}...`
-                                      : tags.name}
-                                  </div>
-                                )
+                      <div className="lists__list-tasks__task__bottom">
+                        {" "}
+                        {props.users.map(
+                          user =>
+                            user.id === taskOnList.users && (
+                              <div key={user.id}>
+                                <Users
+                                  userIdArray={user.name.substring(0, 1)}
+                                />
+                              </div>
                             )
-                          )}
-                        </div>
-                      )}
-                      {taskOnList.file && (
-                        <div className="lists__list-tasks__task__file">
-                          {taskOnList.file[0]}
-                        </div>
-                      )}
-
-                      {(taskOnList.users || taskOnList.file) && (
-                        <div className="lists__list-tasks__task__bottom">
-                          {taskOnList.users && (
-                            <div className="lists__list-tasks__task__users">
-                              <Users
-                                userIdArray={taskOnList.users}
-                                count={6}
-                                more={6}
-                              />
-                            </div>
-                          )}
-                          {taskOnList.file && (
-                            <div className="lists__list-tasks__task__bottom__file">
-                              {taskOnList.file.length}
-                              <File />
-                            </div>
-                          )}
-                        </div>
-                      )}
+                        )}
+                        {taskOnList.tags === 1 && (
+                          <div className="task-esy">Легкая</div>
+                        )}
+                        {taskOnList.tags === 2 && (
+                          <div className="task-medium">Средняя</div>
+                        )}
+                        {taskOnList.tags === 3 && (
+                          <div className="task-complicated">Сложная</div>
+                        )}
+                      </div>
                     </div>
                   ))}
               </div>
-              {visibleAddTask === statusArr.id && (
-                <div>
-                  <div
-                    onClick={() =>
-                      setAddTaskTitle("") || setVisibleAddTask(false)
-                    }
-                    className="bg-close"
-                  />
-                  <form
-                    className="lists__list__add-task__popup"
-                    onSubmit={submitTask(statusArr.id)}
-                    onClick={e => e.stopPropagation()}
-                  >
-                    <input
-                      className="lists__list__add-task__popup__input"
-                      autoComplete="off"
-                      placeholder="Название задачи"
-                      name="txt"
-                      type="text"
-                      value={addTaskTitle}
-                      onChange={handleAddTaskTitleChange}
-                    />
-                    <div className="lists__list__add-task__popup__bottom">
-                      {addTaskTitle ? (
-                        <Button text="Добавить" type="add-task" color="blue" />
-                      ) : (
-                        <Button
-                          text="Добавить"
-                          type="add-task"
-                          color="blue"
-                          noActive={true}
-                        />
-                      )}
-                      <Closed
-                        onClick={() =>
-                          setAddTaskTitle("") || setVisibleAddTask(false)
-                        }
-                      />
-                    </div>
-                  </form>
-                </div>
-              )}
-
-              <div
-                className="lists__list__add-task"
-                onClick={() =>
-                  visibleAddTask
-                    ? setVisibleAddTask(false)
-                    : setVisibleAddTask(statusArr.id)
-                }
-              >
-                <Add />
-                Добавить задачу
-              </div>
             </div>
           ))}
-          {visibleAddStatus ? (
+          <div className="lists__description">
+            <div className="lists__description-status lists__description-title">
+              <div className="lists__description-title-status">Статус:</div>
+              {project[0].status === 1 && (
+                <div className="main-page__content__project__status-active">
+                  Активный
+                </div>
+              )}
+              {project[0].status === 2 && (
+                <div className="main-page__content__project__status-stop">
+                  Приостановлен
+                </div>
+              )}
+              {project[0].status === 3 && (
+                <div className="main-page__content__project__status-complete">
+                  Завершен
+                </div>
+              )}
+            </div>
+
+            <div className="lists__description-description">
+              <div className="lists__description-title">Описание:</div>
+              <div>{project[0].description}</div>
+            </div>
             <div>
-              <ModalAddStatus
-                active={visibleAddStatus}
-                setActive={setVisibleAddStatus}
-                addStatus={addStatus}
-              />
+              <div className="lists__description-title"> Создатель:</div>
+
+              {props.users.map(
+                user =>
+                  user.id === project[0].author && (
+                    <div className="lists__description__user" key={user.id}>
+                      <div className="main-page__content__project-item-user lists__description__user-icon">
+                        <Users userIdArray={user.name.substring(0, 1)} />
+                      </div>{" "}
+                      {user.name}
+                    </div>
+                  )
+              )}
             </div>
-          ) : (
-            <div
-              className="lists__add-list"
-              onClick={() => setVisibleAddStatus(true)}
-            >
-              <Add />
+            <div>
+              <div className="lists__description-title"> Команда:</div>
+
+              <div className="main-page__content__project-item">
+                {project[0].users.map(userId =>
+                  props.users.map(
+                    user =>
+                      user.id === userId && (
+                        <div
+                          key={user.id}
+                          className="main-page__content__project-item-user"
+                        >
+                          <Users userIdArray={user.name.substring(0, 1)} />
+                        </div>
+                      )
+                  )
+                )}
+              </div>
             </div>
-          )}
+          </div>
         </div>
+
         <div>
           {visibleTasks && (
             <div>
-              <ModalInfoTasks
+              <ModalAddTask
                 active={listTasks.filter(item => item.id === visibleTasks)[0]}
                 setActive={setVisibleTasks}
-                status={project[0].status}
-                editDescriptionTask={editDescriptionTask}
-                editTitleTaskF={editTitleTaskF}
-                users={props.users}
-                tags={props.state.tags}
-                deleteTask={deleteTask}
+                projectId={project[0].id}
+                task={listTasks.filter(item => item.id === visibleTasks)[0]}
               />
             </div>
           )}
         </div>
       </div>
+      {visibleAddTask && (
+        <ModalAddTask
+          active={visibleAddTask}
+          setActive={setVisibleAddTask}
+          projectId={project[0].id}
+          task
+        />
+      )}
+      {editProject && (
+        <ModalAddProject
+          active={editProject}
+          setActive={setEditProject}
+          project={project[0]}
+        />
+      )}
     </div>
   );
 }
@@ -395,12 +284,11 @@ function TasksInProjectPage(props) {
 export default connect(mapStateToProps, {
   addList,
   copyList,
-  deleteList,
   isFavourite,
   sendTask,
   updateDescriptionTitle,
   updateList,
-  updateTasksTitle,
   updateStatusTask,
-  deleteTask
+  deleteTask,
+  deleteProject
 })(TasksInProjectPage);
