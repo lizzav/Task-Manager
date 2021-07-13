@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React from "react";
 import "./Header.scss";
 
 import { ReactComponent as Lists } from "../../svg/lists.svg";
@@ -12,7 +12,7 @@ let mapStateToProps = state => {
     user: state.users.profile
   };
 };
-function Header(props) {
+function Header() {
   return (
     <div>
       <div className="header">

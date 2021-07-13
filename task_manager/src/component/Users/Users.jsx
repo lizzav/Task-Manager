@@ -3,7 +3,6 @@ import "./Users.scss";
 import { connect } from "react-redux";
 
 import { ReactComponent as UserSvg } from "../../svg/user.svg";
-import { ReactComponent as File } from "../../svg/file.svg";
 let mapStateToProps = state => {
   return {
     users: state.users.users

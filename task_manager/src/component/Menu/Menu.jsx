@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Menu.scss";
 
 import { ReactComponent as Home } from "../../svg/home.svg";
@@ -6,17 +6,12 @@ import { ReactComponent as Project } from "../../svg/project.svg";
 import { ReactComponent as User } from "../../svg/user.svg";
 import { ReactComponent as Exit } from "../../svg/exit.svg";
 import { NavLink } from "react-router-dom";
-import ModalAddProject from "../ModalAddProject";
 import { connect } from "react-redux";
 import { logout } from "../../redux/profile-reducer";
-let mapStateToProps = state => {
+let mapStateToProps = () => {
   return {};
 };
 function Menu(props) {
-  const [visibleFormAddNewProject, setVisibleFormAddNewProject] = useState(
-    false
-  );
-
   return (
     <div>
       <div className="menu">
@@ -27,7 +22,7 @@ function Menu(props) {
           activeClassName="menu__content-active"
         >
           <div className="menu__content-img">
-            <Home />{" "}
+            <Home />
           </div>
           <div className="menu__content__txt">Главная</div>
         </NavLink>

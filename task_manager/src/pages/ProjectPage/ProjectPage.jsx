@@ -5,7 +5,6 @@ import "../MainPage/MainPage.scss";
 import Menu from "../../component/Menu";
 
 import { NavLink, Redirect } from "react-router-dom";
-import { ReactComponent as Star } from "../../svg/Star.svg";
 import Header from "../../component/Header";
 import { connect } from "react-redux";
 import Users from "../../component/Users/Users";
@@ -36,7 +35,6 @@ function ProjectPage(props) {
           <div className="main-page__content-title project__title">
             <div>Мои проекты</div>
             <div onClick={() => setVisibleAddProject(true)}>
-              {" "}
               <Button text="Добавить проект" type="add-task" color="blue" />
             </div>
           </div>

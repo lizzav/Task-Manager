@@ -31,7 +31,6 @@ function MainPage(props) {
           <div className="main-page__content-title project__title">
             <div>Последние проекты</div>
             <div onClick={() => setVisibleAddProject(true)}>
-              {" "}
               <Button text="Добавить проект" type="add-task" color="blue" />
             </div>
           </div>

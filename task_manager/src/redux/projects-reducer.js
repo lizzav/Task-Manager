@@ -9,7 +9,6 @@ const UPDATE_LIST = "UPDATE_LIST";
 const ADD_LIST = "ADD_LIST";
 const UPDATE_STATUS_TASK = "UPDATE_STATUS_TASK";
 const DELETE_TASK = "DELETE_TASK";
-const UPDATE_NAME_TAG = "UPDATE_NAME_TAG";
 const UPDATE_PROJECT = "UPDATE_PROJECT";
 
 const initialState = {
@@ -213,8 +212,6 @@ const projectReducer = (state = initialState, action) => {
     case UPDATE_PROJECT: {
       const idx = indx(state.projects, action.id);
       const oldItem = state.projects[idx];
-
-      console.log("upa", oldItem, idx, action.id, action.author);
       const newItem = {
         ...oldItem,
         name: action.name,
@@ -283,7 +280,6 @@ const projectReducer = (state = initialState, action) => {
       const newTask = state.tasks.filter(
         el => el.projectId !== parseInt(action.projectId)
       );
-      console.log(newTask, "tasks wizaut", state.tasks);
 
       return {
         ...state,
@@ -353,7 +349,6 @@ const projectReducer = (state = initialState, action) => {
     }
 
     case SEND_TASK: {
-      console.log("add");
       return {
         ...state,
         tasks: [
@@ -374,7 +369,6 @@ const projectReducer = (state = initialState, action) => {
     case UPDATE_TASKS: {
       const idx = indx(state.tasks, action.id);
       const oldItem = state.tasks[idx];
-      console.log("upa", oldItem, idx, action.id, action.author);
       const newItem = {
         ...oldItem,
         name: action.name,
@@ -432,20 +426,6 @@ const projectReducer = (state = initialState, action) => {
       return {
         ...state,
         tasks: [...state.tasks.slice(0, idx), ...state.tasks.slice(idx + 1)]
-      };
-    }
-
-    case UPDATE_NAME_TAG: {
-      const idx = indx(state.tags, action.tagId);
-      const oldItem = state.tags[idx];
-      const newItem = { ...oldItem, name: action.name };
-      return {
-        ...state,
-        tags: [
-          ...state.tasks.slice(0, idx),
-          newItem,
-          ...state.tasks.slice(idx + 1)
-        ]
       };
     }
 
@@ -548,10 +528,5 @@ export const updateStatusTask = (taskId, listId) => ({
 export const deleteTask = taskId => ({
   type: DELETE_TASK,
   taskId: taskId
-});
-export const updateNameTag = (tagId, name) => ({
-  type: UPDATE_NAME_TAG,
-  tagId,
-  name
 });
 export default projectReducer;

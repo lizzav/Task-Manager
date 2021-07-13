@@ -1,10 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import "./TasksInProjectPage.scss";
-import { ReactComponent as File } from "../../svg/file.svg";
-import { ReactComponent as Add } from "../../svg/add.svg";
-import { ReactComponent as Star } from "../../svg/Star.svg";
 import { ReactComponent as Edit } from "../../svg/edit.svg";
-import { ReactComponent as Ellipsis } from "../../svg/ellipsis.svg";
 import { ReactComponent as Closed } from "../../svg/closed.svg";
 import { useRouteMatch } from "react-router";
 
@@ -23,7 +19,7 @@ import {
   deleteProject
 } from "../../redux/projects-reducer";
 import Users from "../../component/Users/Users";
-import { NavLink, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import Menu from "../../component/Menu";
 import ModalAddTask from "../../component/ModalAddTask";
 import ModalAddProject from "../../component/ModalAddProject";
@@ -46,32 +42,13 @@ function TasksInProjectPage(props) {
   );
 
   const [visibleAddTask, setVisibleAddTask] = useState(false);
-  const [addTaskTitle, setAddTaskTitle] = useState("");
   const [visibleTasks, setVisibleTasks] = useState(false);
   const [dropTask, setDropTask] = useState(false);
   const [editProject, setEditProject] = useState(false);
 
-  const handleAddTaskTitleChange = useCallback(
-    event => setAddTaskTitle(event.target.value),
-    []
-  );
-
-  const submitTask = id => event => {
-    event.preventDefault();
-    props.sendTask(params.id, id, addTaskTitle);
-    setAddTaskTitle("");
-    setVisibleAddTask(false);
-  };
   const openTasks = id => {
     const Task = listTasks.filter(item => item.id === id);
     setVisibleTasks(Task[0].id);
-  };
-
-  const editDescriptionTask = (id, description) => {
-    props.updateDescriptionTitle(id, description);
-  };
-  const deleteTask = id => {
-    props.deleteTask(id);
   };
   const dragStartHandler = (e, task) => {
     setDropTask(task.id);
@@ -110,7 +87,6 @@ function TasksInProjectPage(props) {
           </div>
 
           <div onClick={() => setVisibleAddTask(true)}>
-            {" "}
             <Button text="Добавить задачу" type="add-task" color="blue" />
           </div>
         </div>
@@ -162,7 +138,6 @@ function TasksInProjectPage(props) {
                         {taskOnList.name}
                       </div>
                       <div className="lists__list-tasks__task__bottom">
-                        {" "}
                         {props.users.map(
                           user =>
                             user.id === taskOnList.users && (
@@ -221,7 +196,7 @@ function TasksInProjectPage(props) {
                     <div className="lists__description__user" key={user.id}>
                       <div className="main-page__content__project-item-user lists__description__user-icon">
                         <Users userIdArray={user.name.substring(0, 1)} />
-                      </div>{" "}
+                      </div>
                       {user.name}
                     </div>
                   )
@@ -257,6 +232,7 @@ function TasksInProjectPage(props) {
                 setActive={setVisibleTasks}
                 projectId={project[0].id}
                 task={listTasks.filter(item => item.id === visibleTasks)[0]}
+                usersInProject={project[0].users}
               />
             </div>
           )}
@@ -267,6 +243,7 @@ function TasksInProjectPage(props) {
           active={visibleAddTask}
           setActive={setVisibleAddTask}
           projectId={project[0].id}
+          usersInProject={project[0].users}
           task
         />
       )}

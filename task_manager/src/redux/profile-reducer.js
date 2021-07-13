@@ -1,14 +1,19 @@
 const UPDATE_USER = "UPDATE_USER";
 const UPDATE_PASSWORD = "UPDATE_PASSWORD";
-const SEND_CHANGE_USER = "SEND_CHANGE_USER";
 const LOGIN = "LOGIN";
+const REGISTRATION = "REGISTRATION";
 const LOGOUT = "LOGOUT";
+const DELETE_MASSAGE_PASSWORD = "DELETE_MASSAGE_PASSWORD";
+const DELETE_MASSAGE_USERS = "DELETE_MASSAGE_USERS";
 
 const initialState = {
   profile: {
     id: null
   },
-
+  updatePassword: "",
+  updateUsers: "",
+  login: "",
+  registrationMs: "",
   users: [
     {
       id: 1,
@@ -24,9 +29,9 @@ const initialState = {
     {
       id: 2,
       name: "a",
-      email: "",
+      email: "pochta2@mail.ru",
       about: "",
-      password: "",
+      password: "12345",
       age: "",
       company: "",
       speciality: "",
@@ -35,9 +40,9 @@ const initialState = {
     {
       id: 5,
       name: "b",
-      email: "",
+      email: "pochta5@mail.ru",
       about: "",
-      password: "",
+      password: "12345",
       age: "",
       company: "",
       speciality: "",
@@ -46,9 +51,9 @@ const initialState = {
     {
       id: 4,
       name: "c",
-      email: "",
+      email: "pochta4@mail.ru",
       about: "",
-      password: "",
+      password: "12345",
       age: "",
       company: "",
       speciality: "",
@@ -58,9 +63,9 @@ const initialState = {
     {
       id: 3,
       name: "d",
-      email: "",
+      email: "pochta3@mail.ru",
       about: "",
-      password: "",
+      password: "12345",
       age: "",
       company: "",
       speciality: "",
@@ -69,9 +74,9 @@ const initialState = {
     {
       id: 49,
       name: "e",
-      email: "",
+      email: "pochta49@mail.ru",
       about: "",
-      password: "",
+      password: "12345",
       age: "",
       company: "",
       speciality: "",
@@ -80,9 +85,9 @@ const initialState = {
     {
       id: 56,
       name: "f",
-      email: "",
+      email: "pochta56@mail.ru",
       about: "",
-      password: "",
+      password: "12345",
       age: "",
       company: "",
       speciality: "",
@@ -113,52 +118,92 @@ const profileReducer = (state = initialState, action) => {
           ...state.users.slice(0, idx),
           newItem,
           ...state.users.slice(idx + 1)
-        ]
+        ],
+        updateUsers: "Изменения успещно сохранены"
       };
     }
+
+    case DELETE_MASSAGE_PASSWORD: {
+      return {
+        ...state,
+        updatePassword: ""
+      };
+    }
+    case DELETE_MASSAGE_USERS: {
+      return {
+        ...state,
+        updateUsers: ""
+      };
+    }
+
     case UPDATE_PASSWORD: {
       const idx = indx(state.users, action.id);
       const oldItem = state.users[idx];
-      console.log(oldItem, "old", idx, state.users, action.id);
       switch (oldItem.password === action.oldPassword) {
         case true: {
           const newItem = { ...oldItem, password: action.newPassword };
-          console.log(newItem, "new");
           return {
             ...state,
             users: [
               ...state.users.slice(0, idx),
               newItem,
               ...state.users.slice(idx + 1)
-            ]
+            ],
+            updatePassword: "Пароль успешно изменен"
           };
         }
+
         default:
-          return state;
+          return { ...state, updatePassword: "Пароли не совпадают" };
       }
-    }
-    case SEND_CHANGE_USER: {
-      return {
-        ...state,
-        profile: {
-          ...state.profile,
-          about: action.about,
-          age: action.age,
-          company: action.company,
-          speciality: action.speciality,
-          location: action.location
-        }
-      };
     }
     case LOGIN: {
       const user = state.users.filter(
         user => user.email === action.login && user.password === action.password
       )[0];
-      if (user && user.id)
-        return {
-          ...state,
-          profile: { ...state.profile, id: user.id }
-        };
+      switch (user !== undefined) {
+        case true: {
+          return {
+            ...state,
+            profile: { ...state.profile, id: user.id },
+            login: ""
+          };
+        }
+        case false: {
+          return {
+            ...state,
+            login: "Неправильное имя пользователя или пароль"
+          };
+        }
+      }
+    }
+    case REGISTRATION: {
+      const user = state.users.filter(user => user.email === action.login)[0];
+      const id = Math.floor(Math.random() * 100000);
+      switch (user === undefined) {
+        case true: {
+          return {
+            ...state,
+            users: [
+              ...state.users,
+              {
+                id: id,
+                name: action.name,
+                email: action.login,
+                password: action.password
+              }
+            ],
+            profile: { ...state.profile, id: id },
+            registrationMs: ""
+          };
+        }
+        case false: {
+          return {
+            ...state,
+            registrationMs: "Данный email уже используется"
+          };
+        }
+      }
       return {
         ...state
       };
@@ -188,18 +233,22 @@ export const updatePassword = (id, oldPassword, newPassword) => ({
   oldPassword,
   newPassword
 });
-export const sendChangeUser = (about, age, speciality, company, location) => ({
-  type: SEND_CHANGE_USER,
-  about,
-  age,
-  speciality,
-  company,
-  location
-});
 export const login = (login, password) => ({
   type: LOGIN,
   login,
   password
+});
+export const registration = (login, password, name) => ({
+  type: REGISTRATION,
+  login,
+  password,
+  name
+});
+export const deleteMessagePassword = () => ({
+  type: DELETE_MASSAGE_PASSWORD
+});
+export const deleteMessageUsers = () => ({
+  type: DELETE_MASSAGE_USERS
 });
 export const logout = () => ({
   type: LOGOUT
