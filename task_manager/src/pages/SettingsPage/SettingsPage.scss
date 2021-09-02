@@ -1,0 +1,21 @@
+@import "src/color";
+.settings-page {
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    &-txt {
+      margin-bottom: 16px;
+    }
+    &-input {
+      background-color: transparent;
+    }
+    &-button {
+      width: 120px;
+      margin-bottom: 16px;
+    }
+  }
+}

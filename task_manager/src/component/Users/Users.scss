@@ -1,0 +1,23 @@
+@import "src/color";
+.user {
+  &-icon {
+    height: 32px;
+    width: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $light-blue;
+    border-radius: 50%;
+    & svg {
+      margin-top: 5px;
+    }
+    &-txt {
+      color: white;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 21px;
+      text-transform: capitalize;
+    }
+  }
+}

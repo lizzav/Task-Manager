@@ -1,0 +1,213 @@
+@import "src/color";
+
+.modal-project {
+  border-radius: 15px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px 50px;
+  font-style: normal;
+  font-size: 14px;
+  max-height: 100vh;
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+  &-bg {
+    background-color: rgba(0, 0, 0, 0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__closed {
+    position: absolute;
+    top: 5px;
+    right: 30px;
+    cursor: pointer;
+  }
+
+  &__input {
+    outline: none;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid $Grey;
+    box-sizing: border-box;
+    min-height: 24px;
+
+    &::placeholder {
+      color: $Grey;
+    }
+  }
+  &__button {
+    margin-right: auto;
+    margin-left: auto;
+    button {
+      width: 120px;
+    }
+  }
+}
+.input__name {
+  font-size: 24px;
+  line-height: 150%;
+}
+.project-add__status {
+  &-active {
+    border-radius: 50px 0 0 50px;
+    box-shadow: 0 0 10px rgba(2, 57, 164, 0.13);
+    height: 24px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    color: $Confirm;
+
+    padding: 0 6px;
+    box-sizing: border-box;
+  }
+  &-stop {
+    box-shadow: 0 0 10px rgba(2, 57, 164, 0.13);
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    color: $Error;
+
+    padding: 0 6px;
+    box-sizing: border-box;
+  }
+  &-complete {
+    border-radius: 0 50px 50px 0;
+    box-shadow: 0 0 10px rgba(2, 57, 164, 0.13);
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+
+    font-weight: 500;
+
+    font-size: 12px;
+    line-height: 14px;
+    color: $Grey;
+    padding: 0 6px;
+    box-sizing: border-box;
+  }
+}
+.project__select__status {
+  display: flex;
+  margin-top: 10px;
+  align-items: center;
+}
+.active-status-project {
+  background-color: $accent-blue;
+  color: white !important;
+}
+.add-item {
+  line-height: 16px;
+  color: $Grey;
+  margin: 16px 8px 16px 0;
+  &-status {
+    line-height: 16px;
+    color: $Grey;
+    margin-right: 8px;
+  }
+}
+.add-users {
+  color: $dark-blue;
+  margin-bottom: 8px;
+  &-task {
+    display: flex;
+    color: $dark-blue;
+    height: 25px;
+    margin-bottom: 10px;
+    align-items: center;
+  }
+}
+.command-project {
+  min-height: 120px;
+}
+.project__users {
+  display: flex;
+  &-user {
+    display: flex;
+    background-color: white;
+    border-radius: 50px;
+    height: 35px;
+    width: 35px;
+    justify-content: center;
+    align-items: center;
+    &__delete {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      margin: -20px 0 0 20px;
+      border-radius: 50%;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(2, 57, 164, 0.13);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+.add__user__modal {
+  border-radius: 10px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-style: normal;
+  font-size: 14px;
+  max-height: 40vh;
+  min-width: 190px;
+  overflow: auto;
+  &-closed {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 16px 16px 8px 0;
+  }
+  &__item {
+    display: flex;
+    height: 48px;
+    box-sizing: border-box;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 14px;
+    align-items: center;
+    padding: 0 32px;
+    justify-content: space-between;
+    &-active {
+      background-color: #d4e3ff;
+    }
+    &-txt {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      &-svg {
+      }
+      &__check {
+        &-transparent svg path {
+          fill: transparent;
+        }
+      }
+    }
+    &:hover {
+      background-color: $ultra-lightblue;
+    }
+  }
+}
+input:invalid {
+  border-color: red;
+  color: red;
+}

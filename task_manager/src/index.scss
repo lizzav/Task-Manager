@@ -1,16 +1,52 @@
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;700&display=swap');
-
-body {
-  min-width: 100vh;
-  margin: 0;
-  padding: 0;
-  font-family: 'Jost' , sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: #E1E4FF;
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
+@import "src/color";
+html {
+  ::-webkit-scrollbar-button {
+    background-repeat: no-repeat;
+    width: 5px;
+    height: 0;
   }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-  monospace;
+  ::-webkit-scrollbar-track {
+    background-color: $light-main;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 0;
+    border-radius: 5px;
+    background-color: #d1d5ff;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #d1d5ff;
+  }
+
+  ::-webkit-resizer {
+    background-repeat: no-repeat;
+    width: 4px;
+    height: 0;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+}
+body {
+  //min-width: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: "Ubuntu", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: $ultra-lightblue;
+}
+
+.bg-close {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  left: 0;
 }
