@@ -3,9 +3,7 @@ import "./TasksInProjectPage.scss";
 import { ReactComponent as Edit } from "../../svg/edit.svg";
 import { ReactComponent as Closed } from "../../svg/closed.svg";
 import { useRouteMatch } from "react-router";
-
 import Button from "../../component/Button";
-import Header from "../../component/Header";
 import { connect } from "react-redux";
 import {
   addList,
@@ -20,9 +18,10 @@ import {
 } from "../../redux/projects-reducer";
 import Users from "../../component/Users/Users";
 import { Redirect } from "react-router-dom";
-import Menu from "../../component/Menu";
 import ModalAddTask from "../../component/ModalAddTask";
 import ModalAddProject from "../../component/ModalAddProject";
+import GetUsers from "../../component/GetUsers";
+import MenuAndHeader from "../../component/MenuAndHeader";
 
 let mapStateToProps = state => {
   return {
@@ -53,7 +52,7 @@ function TasksInProjectPage(props) {
   const dragStartHandler = (e, task) => {
     setDropTask(task.id);
   };
-  const dragEndHandler = e => {};
+  const dragEndHandler = () => {};
   const dragOverHandler = e => {
     e.preventDefault();
   };
@@ -66,14 +65,12 @@ function TasksInProjectPage(props) {
     props.deleteProject(project[0].id);
     return <Redirect to={"/"} />;
   };
-  if (!project[0]) return <Redirect to={"/"} />;
+  if (!project[0]) return <Redirect to={"/error"} />;
   if (!props.user) return <Redirect to={"/login"} />;
   return (
     <div className="main-page">
-      <div>
-        <Header />
-        <Menu />
-      </div>
+      <MenuAndHeader/>
+
       <div className="main-page__content">
         <div className="main-page__content-title project__title">
           <div className="project__title-txt">
@@ -92,22 +89,7 @@ function TasksInProjectPage(props) {
         </div>
         <div className="project__users">
           <div className="project__users-txt">Участники:</div>
-          {project[0].users &&
-            project[0].users.map(usersId => (
-              <div key={`${Math.random()}${usersId}`}>
-                {props.users.map(
-                  user =>
-                    user.id === usersId && (
-                      <div
-                        key={user.id}
-                        className="main-page__content__project-item-user"
-                      >
-                        <Users userIdArray={user.name.substring(0, 1)} />
-                      </div>
-                    )
-                )}
-              </div>
-            ))}
+          <GetUsers projectUsers={project[0].users}/>
         </div>
         <div className="lists">
           {props.state.status.map(statusArr => (
@@ -138,7 +120,7 @@ function TasksInProjectPage(props) {
                         {taskOnList.name}
                       </div>
                       <div className="lists__list-tasks__task__bottom">
-                        {props.users.map(
+                         {props.users.map(
                           user =>
                             user.id === taskOnList.users && (
                               <div key={user.id}>
@@ -204,22 +186,7 @@ function TasksInProjectPage(props) {
             </div>
             <div>
               <div className="lists__description-title"> Команда:</div>
-
-              <div className="main-page__content__project-item">
-                {project[0].users.map(userId =>
-                  props.users.map(
-                    user =>
-                      user.id === userId && (
-                        <div
-                          key={user.id}
-                          className="main-page__content__project-item-user"
-                        >
-                          <Users userIdArray={user.name.substring(0, 1)} />
-                        </div>
-                      )
-                  )
-                )}
-              </div>
+              <GetUsers projectUsers={project[0].users}/>
             </div>
           </div>
         </div>

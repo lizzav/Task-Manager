@@ -23,75 +23,9 @@
       line-height: 23px;
       margin-bottom: 24px;
     }
-
-    &__projects {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    &__project {
-      justify-content: space-between;
-      text-decoration: none;
-      color: black;
-      min-height: 110px;
-      background-color: #ffffff;
-      margin-bottom: 24px;
-      box-shadow: 0 0 15px rgba(2, 57, 164, 0.05);
-      border-radius: 10px;
-      display: flex;
-      flex-direction: column;
-      box-sizing: border-box;
-      flex-grow: 1;
-      flex-shrink: 1;
-      flex-basis: 0;
-      margin-right: 15px;
-      padding: 16px 24px;
-      &-title {
-        display: flex;
-        align-items: center;
-        font-weight: normal;
-        font-size: 14px;
-        line-height: 160%;
-      }
-      &-item {
-        display: flex;
-        margin-left: 15px;
-        &-user {
-          display: flex;
-          margin-left: -15px;
-          background-color: white;
-          border-radius: 50px;
-          height: 35px;
-          width: 35px;
-          justify-content: center;
-          align-items: center;
-        }
-      }
-    }
   }
 }
-.status {
-  &-active {
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 14px;
-    color: $Confirm;
-  }
-  &-stop {
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 14px;
-    color: $Error;
-  }
-  &-complete {
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 14px;
-    color: $Grey;
-  }
-}
+
 .error-input {
   color: red;
   font-size: 12px;
