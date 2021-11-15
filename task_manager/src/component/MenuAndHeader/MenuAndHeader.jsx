@@ -4,10 +4,10 @@ import Menu from "../Menu";
 
 function MenuAndHeader() {
   return (
-   <div>
-<Header/>
-<Menu/>
-   </div>
+    <div>
+      <Header />
+      <Menu />
+    </div>
   );
 }
 

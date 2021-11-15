@@ -5,6 +5,13 @@ import { ReactComponent as Logo } from "../../svg/t.svg";
 import { registration } from "../../redux/profile-reducer";
 import { connect } from "react-redux";
 import { useInput } from "../../component/Validation";
+import Input from "../../component/Input";
+import {
+  EmailPattern,
+  PasswordPattern,
+  UserNamePattern
+} from "../../component/PatternConst";
+import Validation from "../../component/Validation/Validation";
 
 let mapStateToProps = state => {
   return {
@@ -47,126 +54,31 @@ function LoginPage(props) {
       <div className="main-page__content login-form__content">
         <div className="main-page__content-title">Регистрация</div>
         <span className={"error-input"}>{props.registrationMs}</span>
-        <input
-          className="modal-project__input  login-form__content-input"
-          name="name"
+
+        <Input
+          value={nameTest}
+          pattern={UserNamePattern}
+          type={"name"}
           placeholder={"Имя"}
-          type="name"
-          onChange={e => nameTest.onChange(e)}
-          value={nameTest.value}
-          onBlur={e => nameTest.onBlur(e)}
-          pattern="([A-Za-zА-Яа-яЁё\D\s0-9]{2,50})"
         />
+        <Validation value={nameTest} maxLength={50} minLength={2} />
 
-        {(!nameTest.isDirty ||
-          (!nameTest.isEmpty &&
-            !nameTest.maxLengthError &&
-            !nameTest.minLengthError) ||
-          (!nameTest.isDirty && nameTest.isEmpty)) && (
-          <span className={"error-input"} />
-        )}
-
-        {nameTest.isDirty && nameTest.isEmpty && (
-          <div>
-            <div className={"error-input"}>Поле не может быть пустым</div>
-          </div>
-        )}
-        {nameTest.isDirty && !nameTest.isEmpty && nameTest.maxLengthError && (
-          <div>
-            <div className={"error-input"}>
-              Поле не может быть больше 50 символов
-            </div>
-          </div>
-        )}
-        {nameTest.isDirty &&
-          !nameTest.isEmpty &&
-          !nameTest.maxLengthError &&
-          nameTest.minLengthError && (
-            <div>
-              <div className={"error-input"}>
-                Пароль не может быть меньше 2 символов
-              </div>
-            </div>
-          )}
-        <input
-          className="modal-project__input login-form__content-input"
+        <Input
+          value={emailTest}
+          pattern={EmailPattern}
+          type={"email"}
           placeholder={"E-mail"}
-          type="email"
-          onChange={e => emailTest.onChange(e)}
-          value={emailTest.value}
-          onBlur={e => emailTest.onBlur(e)}
-          pattern="([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,})([.]{1})([A-z]{2,8})"
         />
-        {(!emailTest.isDirty ||
-          (!emailTest.isEmpty &&
-            !emailTest.maxLengthError &&
-            !emailTest.emailError) ||
-          (!emailTest.isDirty && emailTest.isEmpty)) && (
-          <span className={"error-input"} />
-        )}
+        <Validation value={emailTest} maxLength={255} />
 
-        {emailTest.isDirty && emailTest.isEmpty && (
-          <div>
-            <div className={"error-input"}>Поле не может быть пустым</div>
-          </div>
-        )}
-        {emailTest.isDirty && !emailTest.isEmpty && emailTest.maxLengthError && (
-          <div>
-            <div className={"error-input"}>
-              Поле не может быть больше 250 символов
-            </div>
-          </div>
-        )}
-        {emailTest.isDirty &&
-          !emailTest.isEmpty &&
-          !emailTest.maxLengthError &&
-          emailTest.emailError && (
-            <div>
-              <div className={"error-input"}>Неправильный формат email</div>
-            </div>
-          )}
-        <input
-          className="modal-project__input  login-form__content-input"
-          name="password"
+        <Input
+          value={passwordTest}
+          pattern={PasswordPattern}
+          type={"password"}
           placeholder={"Пароль"}
-          type="password"
-          onChange={e => passwordTest.onChange(e)}
-          value={passwordTest.value}
-          onBlur={e => passwordTest.onBlur(e)}
-          pattern="([A-Za-zА-Яа-яЁё\D\s0-9]{4,12})"
         />
-        {(!passwordTest.isDirty ||
-          (!passwordTest.isEmpty &&
-            !passwordTest.maxLengthError &&
-            !passwordTest.minLengthError) ||
-          (!passwordTest.isDirty && passwordTest.isEmpty)) && (
-          <span className={"error-input"} />
-        )}
+        <Validation value={passwordTest} maxLength={12} minLength={4} />
 
-        {passwordTest.isDirty && passwordTest.isEmpty && (
-          <div>
-            <div className={"error-input"}>Поле не может быть пустым</div>
-          </div>
-        )}
-        {passwordTest.isDirty &&
-          !passwordTest.isEmpty &&
-          passwordTest.maxLengthError && (
-            <div>
-              <div className={"error-input"}>
-                Поле не может быть больше 12 символов
-              </div>
-            </div>
-          )}
-        {passwordTest.isDirty &&
-          !passwordTest.isEmpty &&
-          !passwordTest.maxLengthError &&
-          passwordTest.minLengthError && (
-            <div>
-              <div className={"error-input"}>
-                Пароль не может быть меньше 4 символов
-              </div>
-            </div>
-          )}
         {passwordTest.inputValid &&
         emailTest.inputValid &&
         nameTest.inputValid ? (
@@ -174,11 +86,16 @@ function LoginPage(props) {
             className="login-form__content-button"
             onClick={() => handleSubmit()}
           >
-            <Button text="Войти" type="add-task" color="blue" />
+            <Button text="Регистрация" type="add-task" color="blue" />
           </div>
         ) : (
           <div className="login-form__content-button">
-            <Button text="Войти" type="add-task" color="blue" noActive={true} />
+            <Button
+              text="Регистрация"
+              type="add-task"
+              color="blue"
+              noActive={true}
+            />
           </div>
         )}
 

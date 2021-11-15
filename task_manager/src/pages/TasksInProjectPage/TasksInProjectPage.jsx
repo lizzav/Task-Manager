@@ -5,23 +5,14 @@ import { ReactComponent as Closed } from "../../svg/closed.svg";
 import { useRouteMatch } from "react-router";
 import Button from "../../component/Button";
 import { connect } from "react-redux";
-import {
-  addList,
-  copyList,
-  isFavourite,
-  sendTask,
-  updateDescriptionTitle,
-  updateList,
-  updateStatusTask,
-  deleteTask,
-  deleteProject
-} from "../../redux/projects-reducer";
-import Users from "../../component/Users/Users";
+import { updateStatusTask, deleteProject } from "../../redux/projects-reducer";
 import { Redirect } from "react-router-dom";
 import ModalAddTask from "../../component/ModalAddTask";
 import ModalAddProject from "../../component/ModalAddProject";
 import GetUsers from "../../component/GetUsers";
 import MenuAndHeader from "../../component/MenuAndHeader";
+import Task from "../../component/Task";
+import ProjectInfo from "../../component/ProjectInfo";
 
 let mapStateToProps = state => {
   return {
@@ -61,7 +52,7 @@ function TasksInProjectPage(props) {
     props.updateStatusTask(dropTask, list.id);
     setDropTask(false);
   };
-  const deleteProj = () => {
+  const deleteProject = () => {
     props.deleteProject(project[0].id);
     return <Redirect to={"/"} />;
   };
@@ -69,7 +60,7 @@ function TasksInProjectPage(props) {
   if (!props.user) return <Redirect to={"/login"} />;
   return (
     <div className="main-page">
-      <MenuAndHeader/>
+      <MenuAndHeader />
 
       <div className="main-page__content">
         <div className="main-page__content-title project__title">
@@ -78,7 +69,7 @@ function TasksInProjectPage(props) {
             <div onClick={() => setEditProject(true)}>
               <Edit />
             </div>
-            <div onClick={() => deleteProj()}>
+            <div onClick={() => deleteProject()}>
               <Closed />
             </div>
           </div>
@@ -87,10 +78,12 @@ function TasksInProjectPage(props) {
             <Button text="Добавить задачу" type="add-task" color="blue" />
           </div>
         </div>
+
         <div className="project__users">
           <div className="project__users-txt">Участники:</div>
-          <GetUsers projectUsers={project[0].users}/>
+          <GetUsers projectUsers={project[0].users} />
         </div>
+
         <div className="lists">
           {props.state.status.map(statusArr => (
             <div
@@ -109,86 +102,18 @@ function TasksInProjectPage(props) {
                 {listTasks
                   .filter(item => item.statusId === statusArr.id)
                   .map(taskOnList => (
-                    <div
-                      draggable={true}
-                      onDragStart={e => dragStartHandler(e, taskOnList)}
-                      className="lists__list-tasks__task"
-                      onClick={() => openTasks(taskOnList.id)}
-                      key={taskOnList.id}
-                    >
-                      <div className="lists__list-tasks__task__title">
-                        {taskOnList.name}
-                      </div>
-                      <div className="lists__list-tasks__task__bottom">
-                         {props.users.map(
-                          user =>
-                            user.id === taskOnList.users && (
-                              <div key={user.id}>
-                                <Users
-                                  userIdArray={user.name.substring(0, 1)}
-                                />
-                              </div>
-                            )
-                        )}
-                        {taskOnList.tags === 1 && (
-                          <div className="task-esy">Легкая</div>
-                        )}
-                        {taskOnList.tags === 2 && (
-                          <div className="task-medium">Средняя</div>
-                        )}
-                        {taskOnList.tags === 3 && (
-                          <div className="task-complicated">Сложная</div>
-                        )}
-                      </div>
-                    </div>
+                    <Task
+                      users={props.users}
+                      dragStartHandler={dragStartHandler}
+                      openTasks={openTasks}
+                      taskOnList={taskOnList}
+                    />
                   ))}
               </div>
             </div>
           ))}
-          <div className="lists__description">
-            <div className="lists__description-status lists__description-title">
-              <div className="lists__description-title-status">Статус:</div>
-              {project[0].status === 1 && (
-                <div className="main-page__content__project__status-active">
-                  Активный
-                </div>
-              )}
-              {project[0].status === 2 && (
-                <div className="main-page__content__project__status-stop">
-                  Приостановлен
-                </div>
-              )}
-              {project[0].status === 3 && (
-                <div className="main-page__content__project__status-complete">
-                  Завершен
-                </div>
-              )}
-            </div>
 
-            <div className="lists__description-description">
-              <div className="lists__description-title">Описание:</div>
-              <div>{project[0].description}</div>
-            </div>
-            <div>
-              <div className="lists__description-title"> Создатель:</div>
-
-              {props.users.map(
-                user =>
-                  user.id === project[0].author && (
-                    <div className="lists__description__user" key={user.id}>
-                      <div className="main-page__content__project-item-user lists__description__user-icon">
-                        <Users userIdArray={user.name.substring(0, 1)} />
-                      </div>
-                      {user.name}
-                    </div>
-                  )
-              )}
-            </div>
-            <div>
-              <div className="lists__description-title"> Команда:</div>
-              <GetUsers projectUsers={project[0].users}/>
-            </div>
-          </div>
+          <ProjectInfo users={props.users} project={project[0]} />
         </div>
 
         <div>
@@ -205,6 +130,7 @@ function TasksInProjectPage(props) {
           )}
         </div>
       </div>
+
       {visibleAddTask && (
         <ModalAddTask
           active={visibleAddTask}
@@ -214,6 +140,7 @@ function TasksInProjectPage(props) {
           task
         />
       )}
+
       {editProject && (
         <ModalAddProject
           active={editProject}
@@ -226,13 +153,6 @@ function TasksInProjectPage(props) {
 }
 
 export default connect(mapStateToProps, {
-  addList,
-  copyList,
-  isFavourite,
-  sendTask,
-  updateDescriptionTitle,
-  updateList,
   updateStatusTask,
-  deleteTask,
   deleteProject
 })(TasksInProjectPage);
