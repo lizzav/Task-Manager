@@ -119,7 +119,7 @@ const profileReducer = (state = initialState, action) => {
           newItem,
           ...state.users.slice(idx + 1)
         ],
-        updateUsers: "Изменения успещно сохранены"
+        updateUsers: "Изменения успешно сохранены"
       };
     }
 

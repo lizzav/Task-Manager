@@ -1,20 +1,20 @@
 import React from "react";
 
 import "./NotfoundPage.scss";
-import Header from "../../component/Header";
-import {NavLink, Redirect} from "react-router-dom";
-import {connect} from "react-redux";
+import { NavLink, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import MenuAndHeader from "../../component/MenuAndHeader";
 
 let mapStateToProps = state => {
   return {
-    user:state.users.profile.id
+    user: state.users.profile.id
   };
 };
 function Notfound(props) {
   if (!props.user) return <Redirect to={"/login"} />;
   return (
     <div className="not-found">
-      <Header />
+      <MenuAndHeader />
       <div className="not-found-content">
         <div className={"not-found-code"}>404</div>
         <div>Страница не найдена, пожалуйста,</div>

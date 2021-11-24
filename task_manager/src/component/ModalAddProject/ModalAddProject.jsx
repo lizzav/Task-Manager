@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./ModalAddProject.scss";
-
-import Button from "../Button";
 import {
   deleteProject,
   sendProject,
@@ -11,77 +9,18 @@ import { connect } from "react-redux";
 import { ReactComponent as Closed } from "../../svg/closed.svg";
 import Users from "../Users/Users";
 import { Redirect } from "react-router-dom";
+import { useInput } from "../Validation";
+import Input from "../Input";
+import { DescriptionPattern, NameProjectPattern } from "../PatternConst";
+import Validation from "../Validation/Validation";
+import ModalAddUsers from "../ModalAddUsers";
+import ButtonForModalBottom from "../ButtonForModalBottom";
 
 let mapStateToProps = state => {
   return {
     state: state.main,
     user: state.users.profile,
     users: state.users.users
-  };
-};
-
-const useInput = (initialValue, validations) => {
-  const [value, setValue] = useState(initialValue);
-  const [isDirty, setDirty] = useState(false);
-  const valid = useValidation(value, validations);
-  const onChange = e => {
-    setValue(e.target.value);
-  };
-  const onBlur = e => {
-    setDirty(true);
-  };
-  return {
-    value,
-    onChange,
-    onBlur,
-    ...valid,
-    isDirty
-  };
-};
-
-const useValidation = (value, validations) => {
-  const [inputValid, setInputValid] = useState(false);
-  const [isEmpty, setEmpty] = useState(true);
-  const [minLengthError, setMinLengthError] = useState(false);
-  const [maxLengthError, setMaxLengthError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
-  useEffect(() => {
-    for (const validation in validations) {
-      switch (validation) {
-        case "minLength":
-          value.length < validations[validation]
-            ? setMinLengthError(true)
-            : setMinLengthError(false);
-          break;
-        case "maxLength":
-          value.length > validations[validation]
-            ? setMaxLengthError(true)
-            : setMaxLengthError(false);
-          break;
-        case "isEmpty":
-          value ? setEmpty(false) : setEmpty(true);
-          break;
-        case "isEmail":
-          const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-          return re.test(String(value).toLowerCase())
-            ? setEmailError(false)
-            : setEmailError(true);
-          break;
-      }
-    }
-  }, [value]);
-  useEffect(() => {
-    if (isEmpty || maxLengthError || minLengthError || emailError) {
-      setInputValid(false);
-    } else {
-      setInputValid(true);
-    }
-  }, [isEmpty, maxLengthError, minLengthError, emailError]);
-  return {
-    isEmpty,
-    minLengthError,
-    maxLengthError,
-    inputValid
   };
 };
 
@@ -112,7 +51,7 @@ function ModalAddProject(props) {
 
   const [activeStatus, setActiveStatus] = useState(getProjectData("status"));
   const [addUsers, setAddUsers] = useState(false);
-  const [author, setAuthor] = useState(getProjectData("author"));
+  const author = getProjectData("author");
   const [users, setUsers] = useState(getProjectData("users"));
 
   const deleteProjectF = () => {
@@ -156,33 +95,14 @@ function ModalAddProject(props) {
             <Closed onClick={() => props.setActive(false)} />
           </div>
 
-          <input
-            className="modal-project__input input__name"
-            placeholder="Название проекта"
-            onChange={e => nameProjectTest.onChange(e)}
-            value={nameProjectTest.value}
-            onBlur={e => nameProjectTest.onBlur(e)}
-            pattern="[A-Za-zА-Яа-яЁё\D\s0-9]{1,255}"
+          <Input
+            value={nameProjectTest}
+            pattern={NameProjectPattern}
+            type={""}
+            placeholder={"Название проекта"}
           />
-          {(!nameProjectTest.isDirty ||
-            (!nameProjectTest.isEmpty && !nameProjectTest.maxLengthError) ||
-            (!nameProjectTest.isDirty && nameProjectTest.isEmpty)) && (
-            <span className={"error-input"} />
-          )}
-          {nameProjectTest.isDirty && nameProjectTest.isEmpty && (
-            <div>
-              <div className={"error-input"}>Поле не может быть пустым</div>
-            </div>
-          )}
-          {nameProjectTest.isDirty &&
-            !nameProjectTest.isEmpty &&
-            nameProjectTest.maxLengthError && (
-              <div>
-                <div className={"error-input"}>
-                  Поле не может быть больше 255 символов
-                </div>
-              </div>
-            )}
+          <Validation value={nameProjectTest} maxLength={255} />
+
           <div className="project__select__status">
             <div className="add-item-status">Статус</div>
             <div
@@ -223,25 +143,19 @@ function ModalAddProject(props) {
             )}
           </div>
           <div className={"add-item"}>Дополнительные поля (необязательные)</div>
-          <input
-            className="modal-project__input"
-            placeholder="Введите описание проекта"
-            onChange={e => descriptionProjectTest.onChange(e)}
-            value={descriptionProjectTest.value}
-            onBlur={e => descriptionProjectTest.onBlur(e)}
-            pattern="[A-Za-zА-Яа-яЁё\D\s0-9]{1,400}"
+
+          <Input
+            value={descriptionProjectTest}
+            pattern={DescriptionPattern}
+            type={""}
+            placeholder={"Введите описание проекта"}
           />
-          {descriptionProjectTest.isDirty &&
-            descriptionProjectTest.maxLengthError && (
-              <div>
-                <div className={"error-input"}>
-                  Поле не может быть больше 400 символов
-                </div>
-              </div>
-            )}
-          {!descriptionProjectTest.maxLengthError && (
-            <span className={"error-input"} />
-          )}
+          <Validation
+            value={descriptionProjectTest}
+            maxLength={400}
+            empty={true}
+          />
+
           <div className="command-project">
             <div className="add-item" style={{ marginTop: 0 }}>
               Команда
@@ -249,61 +163,17 @@ function ModalAddProject(props) {
             <div className="add-users" onClick={() => setAddUsers(true)}>
               Добавить пользователей
             </div>
+
             {addUsers && (
-              <div>
-                <div
-                  className="bg-close modal-project-bg"
-                  onClick={() => setAddUsers(false)}
-                >
-                  <div
-                    className="add__user__modal"
-                    onClick={e => e.stopPropagation()}
-                  >
-                    <div
-                      className="add__user__modal-closed"
-                      onClick={() => setAddUsers(false)}
-                    >
-                      <Closed />
-                    </div>
-                    {props.users.map(user => (
-                      <div
-                        className={
-                          users.filter(userId => userId === user.id)[0] ===
-                          user.id
-                            ? "add__user__modal__item-active add__user__modal__item"
-                            : "add__user__modal__item"
-                        }
-                        key={user.id}
-                        onClick={() =>
-                          indx(users, user.id) === -1
-                            ? setUsers([...users, user.id])
-                            : setUsers([
-                                ...users.slice(0, indx(users, user.id)),
-                                ...users.slice(indx(users, user.id) + 1)
-                              ])
-                        }
-                      >
-                        <div className="add__user__modal__item-txt">
-                          <Users userIdArray={user.name.substring(0, 1)} />
-                          &nbsp;{user.name}
-                          {user.id === props.user.id && <>(Я)</>}
-                        </div>
-                        {users.filter(userId => userId === user.id)[0] ===
-                        user.id ? (
-                          <div className="add__user__modal__item-txt__check">
-                            <Closed />
-                          </div>
-                        ) : (
-                          <div className="add__user__modal__item-txt__check-transparent">
-                            <Closed />
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              <ModalAddUsers
+                propsUsers={props.users}
+                users={users}
+                setAddUsers={setAddUsers}
+                setUsers={setUsers}
+                indx={indx}
+              />
             )}
+
             <div className="project__users">
               {users &&
                 users.map(userId =>
@@ -330,30 +200,15 @@ function ModalAddProject(props) {
             </div>
           </div>
 
-          <div className="modal-task__button">
-            {!props.project.name ? (
-              <div onClick={() => props.setActive(false)}>
-                <Button text="Удалить" type="add-task" color="rad" />
-              </div>
-            ) : (
-              <div onClick={() => deleteProjectF()}>
-                <Button text="Удалить" type="add-task" color="rad" />
-              </div>
-            )}
-            {nameProjectTest.inputValid &&
-            !descriptionProjectTest.maxLengthError ? (
-              <div onClick={saveNewProjectClick}>
-                <Button text="Сохранить" type="add-task" color="blue" />
-              </div>
-            ) : (
-              <Button
-                text="Сохранить"
-                type="add-task"
-                color="blue"
-                noActive={true}
-              />
-            )}
-          </div>
+          <ButtonForModalBottom
+            description={descriptionProjectTest}
+            name={nameProjectTest}
+            setActive={props.setActive}
+            deleteTaskf={deleteProjectF}
+            propsTask={props.project}
+            saveNewProjectClick={saveNewProjectClick}
+            users={users}
+          />
         </div>
       </div>
     </div>

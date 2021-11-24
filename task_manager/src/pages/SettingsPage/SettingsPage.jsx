@@ -1,14 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import "./SettingsPage.scss";
-import Menu from "../../component/Menu";
-import Header from "../../component/Header";
 import { connect } from "react-redux";
 import Button from "../../component/Button";
 import { updatePassword, updateUser } from "../../redux/profile-reducer";
 import { Redirect } from "react-router-dom";
 import ModalWindow from "../../component/ModalWindow";
-import { minLength } from "../../component/FormAddProject/FormAddProject";
+import { useInput } from "../../component/Validation";
+import MenuAndHeader from "../../component/MenuAndHeader";
+import Validation from "../../component/Validation/Validation";
+import Input from "../../component/Input";
+import {
+  DescriptionPattern,
+  EmailPattern,
+  PasswordPattern,
+  UserNamePattern
+} from "../../component/PatternConst";
 
 let mapStateToProps = state => {
   return {
@@ -16,77 +23,6 @@ let mapStateToProps = state => {
     user: state.users.profile.id,
     updatePasswordMs: state.users.updatePassword,
     updateUsersMs: state.users.updateUsers
-  };
-};
-
-const useInput = (initialValue, validations) => {
-  const [value, setValue] = useState(initialValue);
-  const [isDirty, setDirty] = useState(false);
-  const valid = useValidation(value, validations);
-  const onChange = e => {
-    setValue(e.target.value);
-  };
-  const onBlur = e => {
-    setDirty(true);
-  };
-  const deleteValue = () => {
-    setValue("");
-    setDirty(false);
-  };
-  return {
-    value,
-    onChange,
-    onBlur,
-    ...valid,
-    isDirty,
-    deleteValue
-  };
-};
-
-const useValidation = (value, validations) => {
-  const [inputValid, setInputValid] = useState(false);
-  const [isEmpty, setEmpty] = useState(true);
-  const [minLengthError, setMinLengthError] = useState(false);
-  const [maxLengthError, setMaxLengthError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
-  useEffect(() => {
-    for (const validation in validations) {
-      switch (validation) {
-        case "minLength":
-          value.length < validations[validation]
-            ? setMinLengthError(true)
-            : setMinLengthError(false);
-          break;
-        case "maxLength":
-          value.length > validations[validation]
-            ? setMaxLengthError(true)
-            : setMaxLengthError(false);
-          break;
-        case "isEmpty":
-          value ? setEmpty(false) : setEmpty(true);
-          break;
-        case "isEmail":
-          const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-          return re.test(String(value).toLowerCase())
-            ? setEmailError(false)
-            : setEmailError(true);
-          break;
-      }
-    }
-  }, [value]);
-  useEffect(() => {
-    if (isEmpty || maxLengthError || minLengthError || emailError) {
-      setInputValid(false);
-    } else {
-      setInputValid(true);
-    }
-  }, [isEmpty, maxLengthError, minLengthError, emailError]);
-  return {
-    emailError,
-    isEmpty,
-    minLengthError,
-    maxLengthError,
-    inputValid
   };
 };
 
@@ -121,12 +57,12 @@ function SettingsPage(props) {
   });
   const passwordOldTest = useInput("", {
     minLength: 4,
-    maxLength: 8,
+    maxLength: 12,
     isEmpty: true
   });
   const passwordNewTest = useInput("", {
     minLength: 4,
-    maxLength: 8,
+    maxLength: 12,
     isEmpty: true
   });
   const savePassword = () => {
@@ -143,107 +79,42 @@ function SettingsPage(props) {
   if (!props.user) return <Redirect to={"/login"} />;
   return (
     <div className="main-page">
-      <div>
-        <Header />
-        <Menu />
-      </div>
+      <MenuAndHeader />
       <div className="main-page__content">
-        <div className="1">
+        <div>
           <div className=" settings-page__container">
             <div className="main-page__content-title">Основная информация</div>
             <div className="settings-page__container-txt">Имя пользователя</div>
-            <input
-              className="modal-project__input settings-page__container-input"
-              onChange={e => nameTest.onChange(e)}
-              value={nameTest.value}
-              onBlur={e => nameTest.onBlur(e)}
-              pattern="[A-Za-zА-Яа-яЁё\D0-9]{1,255}"
-            />
-            {(!nameTest.isDirty ||
-              (!nameTest.isEmpty &&
-                !nameTest.maxLengthError &&
-                !nameTest.minLengthError) ||
-              (!nameTest.isDirty && nameTest.isEmpty)) && (
-              <span className={"error-input"} />
-            )}
 
-            {nameTest.isDirty && nameTest.isEmpty && (
-              <div>
-                <div className={"error-input"}>Поле не может быть пустым</div>
-              </div>
-            )}
-            {nameTest.isDirty && !nameTest.isEmpty && nameTest.maxLengthError && (
-              <div>
-                <div className={"error-input"}>
-                  Поле не может быть больше 50 символов
-                </div>
-              </div>
-            )}
-            {nameTest.isDirty && !nameTest.isEmpty && nameTest.minLengthError && (
-              <div>
-                <div className={"error-input"}>
-                  Поле не может быть меньше 2 символов
-                </div>
-              </div>
-            )}
+            <Input
+              value={nameTest}
+              pattern={UserNamePattern}
+              type={"name"}
+              placeholder={"Имя пользователя"}
+            />
+            <Validation value={nameTest} maxLength={50} minLength={2} />
+
             <div className="settings-page__container-txt">
               Адрес электронной почты
             </div>
-            <input
-              className="modal-project__input settings-page__container-input"
-              type="email"
-              onChange={e => emailTest.onChange(e)}
-              value={emailTest.value}
-              onBlur={e => emailTest.onBlur(e)}
-              pattern="([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,})([.]{1})([A-z]{2,8})"
-            />
-            {(!emailTest.isDirty ||
-              (!emailTest.isEmpty &&
-                !emailTest.maxLengthError &&
-                !emailTest.emailError) ||
-              (!emailTest.isDirty && emailTest.isEmpty)) && (
-              <span className={"error-input"} />
-            )}
 
-            {emailTest.isDirty && emailTest.isEmpty && (
-              <div>
-                <div className={"error-input"}>Поле не может быть пустым</div>
-              </div>
-            )}
-            {emailTest.isDirty &&
-              !emailTest.isEmpty &&
-              emailTest.maxLengthError && (
-                <div>
-                  <div className={"error-input"}>
-                    Поле не может быть больше 250 символов
-                  </div>
-                </div>
-              )}
-            {emailTest.isDirty &&
-              !emailTest.isEmpty &&
-              !emailTest.maxLengthError &&
-              emailTest.emailError && (
-                <div>
-                  <div className={"error-input"}>Неправильный формат email</div>
-                </div>
-              )}
+            <Input
+              value={emailTest}
+              pattern={EmailPattern}
+              type={"email"}
+              placeholder={"E-mail"}
+            />
+            <Validation value={emailTest} maxLength={255} />
 
             <div className="settings-page__container-txt">О себе</div>
-            <input
-              className="modal-project__input settings-page__container-input"
-              onChange={e => aboutTest.onChange(e)}
-              value={aboutTest.value}
-              onBlur={e => aboutTest.onBlur(e)}
-              pattern="[A-Za-zА-Яа-яЁё\D\s0-9]{1,400}"
+
+            <Input
+              value={aboutTest}
+              pattern={DescriptionPattern}
+              type={"text"}
+              placeholder={"О себе"}
             />
-            {!aboutTest.maxLengthError && <span className={"error-input"} />}
-            {aboutTest.isDirty && aboutTest.maxLengthError && (
-              <div>
-                <div className={"error-input"}>
-                  Поле не может быть больше 400 символов
-                </div>
-              </div>
-            )}
+            <Validation value={aboutTest} maxLength={400} empty={true} />
 
             {(getUserData("name") !== nameTest.value ||
               getUserData("email") !== emailTest.value ||
@@ -275,89 +146,28 @@ function SettingsPage(props) {
               </div>
             )}
           </div>
+
           <div className="settings-page__container">
             <div className="main-page__content-title">Смена пароля</div>
             <div className="settings-page__container-txt">Текущий пароль</div>
-            <input
-              className="modal-project__input settings-page__container-input"
-              type="password"
-              onChange={e => passwordOldTest.onChange(e)}
-              value={passwordOldTest.value}
-              onBlur={e => passwordOldTest.onBlur(e)}
-              pattern="[A-Za-zА-Яа-яЁё\D0-9]{4,8}"
-            />
-            {(!passwordOldTest.isDirty ||
-              (!passwordOldTest.isEmpty &&
-                !passwordOldTest.maxLengthError &&
-                !passwordOldTest.minLengthError) ||
-              (!passwordOldTest.isDirty && passwordOldTest.isEmpty)) && (
-              <span className={"error-input"} />
-            )}
 
-            {passwordOldTest.isDirty && passwordOldTest.isEmpty && (
-              <div>
-                <div className={"error-input"}>Поле не может быть пустым</div>
-              </div>
-            )}
-            {passwordOldTest.isDirty &&
-              !passwordOldTest.isEmpty &&
-              passwordOldTest.maxLengthError && (
-                <div>
-                  <div className={"error-input"}>
-                    Поле не может быть больше 8 символов
-                  </div>
-                </div>
-              )}
-            {passwordOldTest.isDirty &&
-              !passwordOldTest.isEmpty &&
-              !passwordOldTest.maxLengthError &&
-              passwordOldTest.minLengthError && (
-                <div>
-                  <div className={"error-input"}>
-                    Минимальная длинна 4 символа
-                  </div>
-                </div>
-              )}
-            <div className="settings-page__container-txt">Новый пароль</div>
-            <input
-              className="modal-project__input settings-page__container-input"
-              type="password"
-              onChange={e => passwordNewTest.onChange(e)}
-              value={passwordNewTest.value}
-              onBlur={e => passwordNewTest.onBlur(e)}
-              pattern="[A-Za-zА-Яа-яЁё\D0-9]{4,8}"
+            <Input
+              value={passwordOldTest}
+              pattern={PasswordPattern}
+              type={"password"}
+              placeholder={"Старый пароль"}
             />
-            {(!passwordNewTest.isDirty ||
-              (!passwordNewTest.isEmpty &&
-                !passwordNewTest.maxLengthError &&
-                !passwordNewTest.minLengthError) ||
-              (!passwordNewTest.isDirty && passwordNewTest.isEmpty)) && (
-              <span className={"error-input"} />
-            )}
-            {passwordNewTest.isDirty && passwordNewTest.isEmpty && (
-              <div>
-                <div className={"error-input"}>Поле не может быть пустым</div>
-              </div>
-            )}
-            {passwordNewTest.isDirty &&
-              !passwordNewTest.isEmpty &&
-              passwordNewTest.maxLengthError && (
-                <div>
-                  <div className={"error-input"}>
-                    Поле не может быть больше 8 символов
-                  </div>
-                </div>
-              )}
-            {passwordNewTest.isDirty &&
-              !passwordNewTest.isEmpty &&
-              !passwordNewTest.maxLengthError &&
-              passwordNewTest.minLengthError && (
-                <div>
-                  <div className={"error-input"}>
-                    Минимальная длинна 4 символа
-                  </div>
-                </div>
-              )}
+            <Validation value={passwordOldTest} maxLength={12} minLength={4} />
+
+            <div className="settings-page__container-txt">Новый пароль</div>
+
+            <Input
+              value={passwordNewTest}
+              pattern={PasswordPattern}
+              type={"password"}
+              placeholder={"Новый пароль"}
+            />
+            <Validation value={passwordNewTest} maxLength={12} minLength={4} />
 
             {passwordNewTest.inputValid && passwordOldTest.inputValid ? (
               <div

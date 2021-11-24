@@ -1,0 +1,15 @@
+@import "src/color";
+.users-wrapper {
+  display: flex;
+  margin-left: 15px;
+  &__item {
+    display: flex;
+    margin-left: -15px;
+    background-color: white;
+    border-radius: 50px;
+    height: 35px;
+    width: 35px;
+    justify-content: center;
+    align-items: center;
+  }
+}

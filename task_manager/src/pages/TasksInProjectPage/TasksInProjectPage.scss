@@ -58,6 +58,7 @@
       }
     }
   }
+
   &__list {
     margin-right: 15px;
     display: flex;
@@ -73,7 +74,10 @@
     flex-basis: 0;
 
     overflow: auto;
-
+    &-tasks {
+      overflow: auto;
+      margin: 0 16px 8px;
+    }
     &__header {
       display: flex;
       justify-content: space-between;
@@ -113,37 +117,6 @@
       font-weight: normal;
       font-size: 16px;
       line-height: 18px;
-    }
-
-    &-tasks {
-      overflow: auto;
-      margin: 0 16px 8px;
-      &__task {
-        display: flex;
-        background-color: $tasks;
-        min-height: 80px;
-        margin-bottom: 8px;
-        border-radius: 15px;
-        flex-direction: column;
-        cursor: pointer;
-        justify-content: space-between;
-        padding: 16px;
-        box-sizing: border-box;
-        &__title {
-          color: #000000;
-          display: flex;
-          box-sizing: border-box;
-          font-weight: normal;
-          font-size: 14px;
-          line-height: 150%;
-        }
-
-        &__bottom {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-      }
     }
 
     &__add-task {
@@ -303,43 +276,5 @@ textarea {
     &:hover {
       background-color: $tasks;
     }
-  }
-}
-.task {
-  &-esy {
-    padding: 5px 10px;
-    align-items: center;
-    background-color: #b9ecb5;
-    max-width: 70px;
-    border-radius: 15px;
-    justify-content: center;
-    font-weight: 300;
-    font-size: 12px;
-    line-height: 14px;
-    box-sizing: border-box;
-  }
-  &-medium {
-    padding: 5px 10px;
-    align-items: center;
-    background-color: #f1eaa5;
-    max-width: 70px;
-    border-radius: 15px;
-    justify-content: center;
-    font-weight: 300;
-    font-size: 12px;
-    line-height: 14px;
-    box-sizing: border-box;
-  }
-  &-complicated {
-    padding: 5px 10px;
-    align-items: center;
-    background-color: #f3b6b8;
-    max-width: 70px;
-    border-radius: 15px;
-    justify-content: center;
-    font-weight: 300;
-    font-size: 12px;
-    line-height: 14px;
-    box-sizing: border-box;
   }
 }
